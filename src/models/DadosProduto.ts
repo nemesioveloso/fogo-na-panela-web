@@ -6,4 +6,5 @@ export interface DadosProduto {
     precoVenda: number;
     adicionado: string;
     ultimaAlteracao: string;
+    estoque: number;
 }
