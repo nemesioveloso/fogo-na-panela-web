@@ -3,7 +3,7 @@ import { TabelaPaginada } from "../../components/Tabela";
 
 export function Dashboard() {
     return (
-        <Box>
+        <Box p={2}>
             <TabelaPaginada />
         </Box>
     )

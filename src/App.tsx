@@ -7,9 +7,7 @@ export function App() {
   return (
     <Box>
       <ResponsiveAppBar />
-      <Box p={2}>
-        <Router />
-      </Box>
+      <Router />
     </Box>
   )
 }

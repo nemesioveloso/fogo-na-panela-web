@@ -35,14 +35,12 @@ export function DashboardMesas() {
     const handleCloseDialog = () => setOpenDialog(false);
 
     const handleAddItem = (item: any) => {
-        // Adicione o item à lista da mesa ou realize outra ação desejada
         setItensMesa((prevItens) => [...prevItens, item]);
         console.log('Item adicionado:', item);
-
     };
 
     return (
-        <Container>
+        <Container sx={{ padding: '1rem' }}>
             <Typography variant="h4" align="center" gutterBottom>
                 Dashboard de Mesas
             </Typography>
