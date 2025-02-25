@@ -9,29 +9,155 @@ import {
 } from '@mui/material';
 import { DetalhesMesaDialog } from '../../components/DetalhesMesaDialogProps';
 import { useState } from 'react';
-
-interface Mesa {
-    id: number;
-    status: 'Aberta' | 'Fechada';
-    total: number;
-}
+import { Mesa } from '../../models/DashboarMesas';
 
 const mesas: Mesa[] = [
-    { id: 1, status: 'Aberta', total: 120.50 },
-    { id: 2, status: 'Aberta', total: 75.00 },
-    { id: 3, status: 'Fechada', total: 200.00 },
-    { id: 4, status: 'Fechada', total: 200.00 },
-    { id: 5, status: 'Fechada', total: 200.00 },
-    { id: 6, status: 'Aberta', total: 200.00 },
+    {
+        id: 1,
+        status: 'Aberta',
+        total: 120.50,
+        detalhes: [
+            {
+                categoria: 'Comida',
+                nome: 'Hambúrguer',
+                quantidade: 2,
+                precoUnitario: 15.00,
+            },
+            {
+                categoria: 'Bebida',
+                nome: 'Cerveja',
+                quantidade: 3,
+                precoUnitario: 6.00,
+            },
+            {
+                categoria: 'Comida',
+                nome: 'Batata Frita',
+                quantidade: 1,
+                precoUnitario: 10.50,
+            },
+        ],
+    },
+    {
+        id: 2,
+        status: 'Aberta',
+        total: 75.00,
+        detalhes: [
+            {
+                categoria: 'Bebida',
+                nome: 'Refrigerante',
+                quantidade: 2,
+                precoUnitario: 5.00,
+            },
+            {
+                categoria: 'Comida',
+                nome: 'Salada',
+                quantidade: 1,
+                precoUnitario: 15.00,
+            },
+        ],
+    },
+    {
+        id: 3,
+        status: 'Fechada',
+        total: 200.00,
+        detalhes: [
+            {
+                categoria: 'Comida',
+                nome: 'Pizza Margherita',
+                quantidade: 2,
+                precoUnitario: 30.00,
+            },
+            {
+                categoria: 'Bebida',
+                nome: 'Cerveja',
+                quantidade: 4,
+                precoUnitario: 5.00,
+            },
+            {
+                categoria: 'Comida',
+                nome: 'Sobremesa',
+                quantidade: 2,
+                precoUnitario: 20.00,
+            },
+        ],
+    },
+    {
+        id: 4,
+        status: 'Fechada',
+        total: 200.00,
+        detalhes: [
+            {
+                categoria: 'Bebida',
+                nome: 'Suco de Laranja',
+                quantidade: 3,
+                precoUnitario: 7.00,
+            },
+            {
+                categoria: 'Comida',
+                nome: 'X-Salada',
+                quantidade: 2,
+                precoUnitario: 12.00,
+            },
+        ],
+    },
+    {
+        id: 5,
+        status: 'Fechada',
+        total: 200.00,
+        detalhes: [
+            {
+                categoria: 'Comida',
+                nome: 'Espetinho',
+                quantidade: 4,
+                precoUnitario: 8.00,
+            },
+            {
+                categoria: 'Bebida',
+                nome: 'Cerveja',
+                quantidade: 3,
+                precoUnitario: 6.00,
+            },
+        ],
+    },
+    {
+        id: 6,
+        status: 'Aberta',
+        total: 200.00,
+        detalhes: [
+            {
+                categoria: 'Comida',
+                nome: 'Pastel',
+                quantidade: 4,
+                precoUnitario: 5.00,
+            },
+            {
+                categoria: 'Bebida',
+                nome: 'Água Mineral',
+                quantidade: 2,
+                precoUnitario: 2.00,
+            },
+            {
+                categoria: 'Comida',
+                nome: 'Porção de Calabresa',
+                quantidade: 1,
+                precoUnitario: 15.00,
+            },
+        ],
+    },
 ];
 
 export function DashboardMesas() {
     const mesasAbertas = mesas.filter(mesa => mesa.status === 'Aberta');
     const [openDialog, setOpenDialog] = useState(false);
     const [itensMesa, setItensMesa] = useState<any[]>([]);
+    const [mesaSelecionada, setMesaSelecionada] = useState<Mesa | null>(null);
 
     console.log(itensMesa, 'itensMesa');
-    const handleOpenDialog = () => setOpenDialog(true);
+
+    const handleOpenDialog = (mesa: Mesa) => {
+        setMesaSelecionada(mesa);
+        setOpenDialog(true);
+    };
     const handleCloseDialog = () => setOpenDialog(false);
 
     const handleAddItem = (item: any) => {
@@ -52,7 +178,7 @@ export function DashboardMesas() {
             <Grid2 container spacing={2}>
                 {mesasAbertas.map((mesa) => (
                     <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={mesa.id}>
-                        <Card sx={{ minWidth: 275 }}>
+                        <Card>
                             <CardContent>
                                 <Typography variant="h6">Mesa {mesa.id}</Typography>
                                 <Typography color="textSecondary" gutterBottom>
@@ -64,7 +190,7 @@ export function DashboardMesas() {
                                 <Box mt={2}>
                                     <Grid2 container justifyContent='end' spacing={1}>
                                         <Grid2 size={6}>
-                                            <Button fullWidth variant="outlined" size="small" onClick={handleOpenDialog}>
+                                            <Button fullWidth variant="outlined" size="small" onClick={() => handleOpenDialog(mesa)}>
                                                 Abrir Detalhes
                                             </Button>
                                         </Grid2>
@@ -85,6 +211,7 @@ export function DashboardMesas() {
                     open={openDialog}
                     onClose={handleCloseDialog}
                     onAddItem={handleAddItem}
+                    mesa={mesaSelecionada}
                 />
             </Box>
         </Container>

@@ -6,9 +6,14 @@ import {
     DialogActions,
     TextField,
     Button,
+    Grid2,
+    Typography,
+    Box,
 } from '@mui/material';
+import { Mesa } from '../../models/DashboarMesas';
 
 interface Item {
+    categoria: string;
     nome: string;
     quantidade: number;
 }
@@ -17,10 +22,11 @@ interface DetalhesMesaDialogProps {
     open: boolean;
     onClose: () => void;
     onAddItem: (item: Item) => void;
+    mesa: Mesa | null;
 }
 
-export function DetalhesMesaDialog({ open, onClose, onAddItem }: DetalhesMesaDialogProps) {
-    const [itemData, setItemData] = useState<Item>({ nome: '', quantidade: 1 });
+export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesMesaDialogProps) {
+    const [itemData, setItemData] = useState<Item>({ categoria: '', nome: '', quantidade: 1 });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -32,20 +38,60 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem }: DetalhesMesaDia
 
     const handleSubmit = () => {
         onAddItem(itemData);
-        setItemData({ nome: '', quantidade: 1 });
+        setItemData({ categoria: '', nome: '', quantidade: 1 });
         onClose();
     };
 
     return (
-        <Dialog open={open} onClose={(_event, reason) => {
+        <Dialog aria-hidden='true' open={open} onClose={(_event, reason) => {
             if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
             onClose();
         }}
             disableEscapeKeyDown>
-            <DialogTitle>Adicionar Item à Comanda</DialogTitle>
+            <DialogTitle>Detalhes da Mesa {mesa?.id}</DialogTitle>
             <DialogContent>
+                <Grid2 container>
+                    <Grid2>
+                        <Typography variant="h6">Itens da Mesa</Typography>
+                        {mesa?.detalhes?.map((item, index) => {
+                            const totalItem = item.precoUnitario * item.quantidade;
+                            return (
+                                <Box key={index} mb={2}>
+                                    <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+                                        <li>
+                                            <strong>Categoria:</strong> {item.categoria}
+                                        </li>
+                                        <li>
+                                            <strong>Nome:</strong> {item.nome}
+                                        </li>
+                                        <li>
+                                            <strong>Preço Unitário:</strong> R$ {item.precoUnitario.toFixed(2)}
+                                        </li>
+                                        <li>
+                                            <strong>Quantidade:</strong> {item.quantidade}
+                                        </li>
+                                        <li>
+                                            <strong>Total do Item:</strong> R$ {totalItem.toFixed(2)}
+                                        </li>
+                                    </ul>
+                                </Box>
+                            );
+                        })}
+                    </Grid2>
+                </Grid2>
+                <Typography variant="h6" textAlign='center' mt='1rem'>
+                    Adicionar Item
+                </Typography>
                 <TextField
-                    autoFocus
+                    // autoFocus
+                    margin="dense"
+                    label="Categoria"
+                    name="categoria"
+                    fullWidth
+                    value={itemData.categoria}
+                    onChange={handleChange}
+                />
+                <TextField
                     margin="dense"
                     label="Nome do Item"
                     name="nome"
@@ -61,6 +107,7 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem }: DetalhesMesaDia
                     fullWidth
                     value={itemData.quantidade}
                     onChange={handleChange}
+                    inputProps={{ min: 0 }}
                 />
             </DialogContent>
             <DialogActions>
