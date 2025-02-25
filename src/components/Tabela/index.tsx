@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import { ProductsList } from "./style";
 import { DadosProduto } from "../../models/DadosProduto";
+import { getFormattedDate } from "../../function/function";
 
 const dadosProdutos = [
   {
@@ -123,7 +124,7 @@ export function TabelaPaginada() {
   const [totalElements, setTotalElements] = useState(0);
 
   const [dialogEdit, setDialogEdit] = useState(false);
-  const [dadosEdit, setDadosEdit] = useState<DadosProduto>();
+  const [dadosEdit, setDadosEdit] = useState<DadosProduto | null>(null);
 
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
@@ -140,9 +141,23 @@ export function TabelaPaginada() {
   };
 
   const handleEdit = (item: DadosProduto) => {
-    console.log(item, "ìtem");
     setDadosEdit(item);
     setDialogEdit(true);
+  };
+
+  const handleSave = () => {
+    setDadosEdit((prev) =>
+      prev ? { ...prev, ultimaAlteracao: getFormattedDate() } : null
+    );
+    setDialogEdit(false);
+  };
+
+  const handleClose = () => {
+    setDialogEdit(false);
+  };
+
+  const handleDelete = (id: number) => {
+    console.log(id);
   };
 
   return (
@@ -193,6 +208,7 @@ export function TabelaPaginada() {
                                   fullWidth
                                   variant="contained"
                                   color="error"
+                                  onClick={() => handleDelete(dado.id)}
                                 >
                                   Apagar
                                 </Button>
@@ -225,18 +241,23 @@ export function TabelaPaginada() {
         </Grid2>
       </Grid2>
 
-      <Dialog open={dialogEdit}>
-        {/* onClose={} aria-labelledby={} */}
+      <Dialog open={dialogEdit} onClose={handleClose} aria-hidden='true'>
         <DialogContent>
-          <DialogContentText textAlign='center'>Produto Editar</DialogContentText>
+          <DialogContentText textAlign="center">Produto Editar</DialogContentText>
           <Grid2 container p={2} spacing={2}>
             <Grid2 size={12}>
               <TextField
                 fullWidth
                 id="nome"
                 label="Nome"
-                value={dadosEdit!.nome}
-                // onChange={}
+                value={dadosEdit?.nome || ""}
+                onChange={(e) =>
+                  setDadosEdit((prev) =>
+                    prev
+                      ? { ...prev, nome: e.target.value }
+                      : null
+                  )
+                }
               />
             </Grid2>
             <Grid2 size={12}>
@@ -244,8 +265,14 @@ export function TabelaPaginada() {
                 fullWidth
                 id="categoria"
                 label="Categoria"
-                value={dadosEdit!.categoria}
-                // onChange={}
+                value={dadosEdit?.categoria || ""}
+                onChange={(e) =>
+                  setDadosEdit((prev) =>
+                    prev
+                      ? { ...prev, categoria: e.target.value }
+                      : null
+                  )
+                }
               />
             </Grid2>
             <Grid2 size={12}>
@@ -253,8 +280,14 @@ export function TabelaPaginada() {
                 fullWidth
                 id="precoDeCompra"
                 label="Preço de Compra"
-                value={dadosEdit!.precoCompra}
-                // onChange={}
+                value={dadosEdit?.precoCompra || ""}
+                onChange={(e) =>
+                  setDadosEdit((prev) =>
+                    prev
+                      ? { ...prev, precoCompra: parseFloat(e.target.value) || 0 }
+                      : null
+                  )
+                }
               />
             </Grid2>
             <Grid2 size={12}>
@@ -262,8 +295,14 @@ export function TabelaPaginada() {
                 fullWidth
                 id="precoDeVenda"
                 label="Preço de Venda"
-                value={dadosEdit!.precoVenda}
-                // onChange={}
+                value={dadosEdit?.precoVenda || ""}
+                onChange={(e) =>
+                  setDadosEdit((prev) =>
+                    prev
+                      ? { ...prev, precoVenda: parseFloat(e.target.value) || 0 }
+                      : null
+                  )
+                }
               />
             </Grid2>
             <Grid2 size={12}>
@@ -271,16 +310,35 @@ export function TabelaPaginada() {
                 fullWidth
                 id="estoque"
                 label="Estoque"
-                value={dadosEdit!.estoque}
-                // onChange={}
+                value={dadosEdit?.estoque || ""}
+                onChange={(e) =>
+                  setDadosEdit((prev) =>
+                    prev
+                      ? { ...prev, estoque: parseInt(e.target.value) || 0 }
+                      : null
+                  )
+                }
+              />
+            </Grid2>
+            <Grid2 size={12}>
+              <TextField
+                fullWidth
+                id="ultimaAlteracao"
+                label="Data Alteração"
+                value={dadosEdit?.ultimaAlteracao || ""}
+                disabled
               />
             </Grid2>
           </Grid2>
         </DialogContent>
 
         <DialogActions>
-          <Button color="error">Cancel</Button>
-          <Button color="success">Salvar</Button>
+          <Button color="error" onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button color="success" onClick={handleSave}>
+            Salvar
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>
