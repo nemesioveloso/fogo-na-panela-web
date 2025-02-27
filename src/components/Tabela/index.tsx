@@ -13,6 +13,7 @@ import { useState } from "react";
 import { ProductsList } from "./style";
 import { DadosProduto } from "../../models/DadosProduto";
 import { getFormattedDate } from "../../function/function";
+import { CadastroDeProdutos } from "../CadastroDeProdutos";
 
 const dadosProdutos = [
   {
@@ -126,6 +127,14 @@ export function TabelaPaginada() {
   const [dialogEdit, setDialogEdit] = useState(false);
   const [dadosEdit, setDadosEdit] = useState<DadosProduto | null>(null);
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpenDialog = () => setOpen(true);
+  const handleCloseDialog = () => setOpen(false);
+  const handleProdutoCadastradoComSucesso = () => {
+    setOpen(false);
+  }
+
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -164,7 +173,7 @@ export function TabelaPaginada() {
     <Box>
       <Grid2 p={1} container justifyContent='end'>
         <Grid2>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={handleOpenDialog}>
             Adicionar Produto
           </Button>
         </Grid2>
@@ -354,6 +363,11 @@ export function TabelaPaginada() {
             Salvar
           </Button>
         </DialogActions>
+      </Dialog>
+      <Dialog open={open} onClose={handleCloseDialog} maxWidth="md" fullWidth>
+        <DialogContent>
+          <CadastroDeProdutos onSuccess={handleProdutoCadastradoComSucesso} />
+        </DialogContent>
       </Dialog>
     </Box>
   );

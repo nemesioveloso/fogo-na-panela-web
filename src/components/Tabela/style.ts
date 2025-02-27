@@ -36,42 +36,35 @@ export const ProductsList = styled.div`
     }
   }
 
-  /* ========== TELA PEQUENA: TRANSFORMA TABELA EM CARDS ========== */
+  
   @media (max-width: 768px) {
     table, thead, tbody, th, td, tr {
       display: block;
     }
 
     thead {
-      /* Oculta o cabeçalho em telas menores */
       display: none;
     }
 
     table {
-      min-width: 100%; /* deixa o table 100% na tela pequena */
+      min-width: 100%; 
     }
 
     tbody {
       tr {
-        margin-bottom: 1rem; /* espaçamento entre "cards" */
+        margin-bottom: 1rem; 
         border: 1px solid #ccc;
         border-radius: 8px;
-        display: block; /* cada linha é um bloco isolado */
+        display: block;
 
         td {
-          /* Cada célula vira uma linha */
           display: flex;
           justify-content: space-between;
           align-items: center;
-          border: none; /* remove bordas extras */
+          border: none;
           padding: 0.5rem 1rem;
           position: relative;
           text-align: left;
-
-          /* 
-            Se quiser que o label fique antes do valor, 
-            use o pseudo-elemento ::before com o conteúdo de data-label 
-          */
           &::before {
             content: attr(data-label);
             font-weight: bold;

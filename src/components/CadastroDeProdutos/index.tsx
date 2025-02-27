@@ -4,7 +4,11 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { Produtos } from '../../models/Produtos'
 
-export function CadastroDeProdutos() {
+interface CadastroDeProdutosProps {
+    onSuccess?: () => void; // callback opcional
+}
+
+export function CadastroDeProdutos({ onSuccess }: CadastroDeProdutosProps) {
     const [values, setValues] = useState<Produtos>({
         nome: '',
         categoria: '',
@@ -71,13 +75,15 @@ export function CadastroDeProdutos() {
         event.preventDefault()
         if (validateFields()) {
             console.log('Formulário válido', values)
+            toast.success('Produto Cadastrado')
+            onSuccess?.()
         } else {
             toast.warning('Dados obrigatórios ausentes.')
         }
     }
 
     return (
-        <Container component="form" noValidate autoComplete="off" onSubmit={handleSubmit} sx={{ background: '#f7f7f7', marginTop: '2rem', borderRadius: '8px', padding: '2rem' }}>
+        <Container component="form" noValidate autoComplete="off" onSubmit={handleSubmit} sx={{ marginTop: '2rem', borderRadius: '8px', padding: '2rem' }}>
             <Typography mb={4} variant="h4" textAlign='center' color='textSecondary'>
                 Cadastro de Produtos
             </Typography>
