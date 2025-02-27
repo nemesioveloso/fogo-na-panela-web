@@ -8,7 +8,6 @@ import {
     Button,
     Grid2,
     Typography,
-    Box,
 } from '@mui/material';
 import { Mesa } from '../../models/DashboarMesas';
 
@@ -43,41 +42,28 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
     };
 
     return (
-        <Dialog aria-hidden='true' open={open} onClose={(_event, reason) => {
+        <Dialog aria-hidden='false' open={open} onClose={(_event, reason) => {
             if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
             onClose();
         }}
             disableEscapeKeyDown>
-            <DialogTitle>Detalhes da Mesa {mesa?.id}</DialogTitle>
+            <DialogTitle textAlign='center'>Detalhes da Mesa {mesa?.id}</DialogTitle>
             <DialogContent>
-                <Grid2 container>
-                    <Grid2>
-                        <Typography variant="h6">Itens da Mesa</Typography>
-                        {mesa?.detalhes?.map((item, index) => {
-                            const totalItem = item.precoUnitario * item.quantidade;
-                            return (
-                                <Box key={index} mb={2}>
-                                    <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
-                                        <li>
-                                            <strong>Categoria:</strong> {item.categoria}
-                                        </li>
-                                        <li>
-                                            <strong>Nome:</strong> {item.nome}
-                                        </li>
-                                        <li>
-                                            <strong>Preço Unitário:</strong> R$ {item.precoUnitario.toFixed(2)}
-                                        </li>
-                                        <li>
-                                            <strong>Quantidade:</strong> {item.quantidade}
-                                        </li>
-                                        <li>
-                                            <strong>Total do Item:</strong> R$ {totalItem.toFixed(2)}
-                                        </li>
-                                    </ul>
-                                </Box>
-                            );
-                        })}
-                    </Grid2>
+                <Grid2 container spacing={1}>
+                    {mesa?.detalhes?.map((item, index) => {
+                        const totalItem = item.precoUnitario * item.quantidade;
+                        return (
+                            <Grid2 size={6} key={index}>
+                                <Typography variant="body1">
+                                    <strong>Categoria:</strong> {item.categoria} <br />
+                                    <strong>Nome:</strong> {item.nome} <br />
+                                    <strong>Preço Unitário:</strong> R$ {item.precoUnitario.toFixed(2)} <br />
+                                    <strong>Quantidade:</strong> {item.quantidade} <br />
+                                    <strong>Total do Item:</strong> R$ {totalItem.toFixed(2)}
+                                </Typography>
+                            </Grid2>
+                        );
+                    })}
                 </Grid2>
                 <Typography variant="h6" textAlign='center' mt='1rem'>
                     Adicionar Item

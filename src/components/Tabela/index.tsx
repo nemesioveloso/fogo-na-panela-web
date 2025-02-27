@@ -7,7 +7,7 @@ import {
   DialogActions,
   TextField,
   DialogContent,
-  DialogContentText,
+  DialogContentText, Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { ProductsList } from "./style";
@@ -162,9 +162,16 @@ export function TabelaPaginada() {
 
   return (
     <Box>
+      <Grid2 p={1} container justifyContent='end'>
+        <Grid2>
+          <Button variant="contained" color="primary">
+            Adicionar Produto
+          </Button>
+        </Grid2>
+      </Grid2>
       <Grid2 container p={1}>
         <Grid2 size={12}>
-          {dadosProdutos.length > 1 && (
+          {dadosProdutos.length > 1 ? (
             <Box>
               <ProductsList>
                 <table>
@@ -184,16 +191,17 @@ export function TabelaPaginada() {
                     {dadosProdutos.map((dado: DadosProduto) => {
                       return (
                         <tr key={dado.id}>
-                          <td>{dado.nome}</td>
-                          <td>{dado.categoria}</td>
-                          <td>{dado.precoCompra}</td>
-                          <td>{dado.precoVenda}</td>
-                          <td>{dado.adicionado}</td>
-                          <td>{dado.ultimaAlteracao}</td>
-                          <td>{dado.estoque}</td>
-                          <td>
-                            <Grid2 container spacing={1}>
-                              <Grid2 size={6}>
+                          <td data-label="NOME">{dado.nome}</td>
+                          <td data-label="CATEGORIA">{dado.categoria}</td>
+                          <td data-label="PREÇO DE COMPRA">{dado.precoCompra}</td>
+                          <td data-label="PREÇO DE VENDA">{dado.precoVenda}</td>
+                          <td data-label="ADICIONADO">{dado.adicionado}</td>
+                          <td data-label="ULTIMA ALTERAÇÃO">{dado.ultimaAlteracao}</td>
+                          <td data-label="ESTOQUE">{dado.estoque}</td>
+                          <td data-label="AÇÕES">
+                            <Grid2 container spacing={1} wrap="nowrap"
+                              alignItems="center">
+                              <Grid2 size='auto'>
                                 <Button
                                   fullWidth
                                   variant="contained"
@@ -203,7 +211,7 @@ export function TabelaPaginada() {
                                   Editar
                                 </Button>
                               </Grid2>
-                              <Grid2 size={6}>
+                              <Grid2 size='auto'>
                                 <Button
                                   fullWidth
                                   variant="contained"
@@ -236,6 +244,12 @@ export function TabelaPaginada() {
                 rowsPerPage={pageSize}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
+            </Box>
+          ) : (
+            <Box>
+              <Typography variant="h4" textAlign='center'>
+                Não existe produtos cadastrados.
+              </Typography>
             </Box>
           )}
         </Grid2>

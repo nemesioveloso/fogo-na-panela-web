@@ -10,6 +10,7 @@ import {
 import { DetalhesMesaDialog } from '../../components/DetalhesMesaDialogProps';
 import { useState } from 'react';
 import { Mesa } from '../../models/DashboarMesas';
+import { AlertaDialog } from '../../components/Alerta';
 
 const mesas: Mesa[] = [
     {
@@ -49,10 +50,22 @@ const mesas: Mesa[] = [
                 precoUnitario: 5.00,
             },
             {
+                categoria: 'Bebida',
+                nome: 'Skol',
+                quantidade: 5,
+                precoUnitario: 7.00,
+            },
+            {
                 categoria: 'Comida',
                 nome: 'Salada',
                 quantidade: 1,
                 precoUnitario: 15.00,
+            },
+            {
+                categoria: 'Comida',
+                nome: 'Panelada',
+                quantidade: 2,
+                precoUnitario: 20.00,
             },
         ],
     },
@@ -151,6 +164,7 @@ export function DashboardMesas() {
     const [openDialog, setOpenDialog] = useState(false);
     const [itensMesa, setItensMesa] = useState<any[]>([]);
     const [mesaSelecionada, setMesaSelecionada] = useState<Mesa | null>(null);
+    const [openAlerta, setOpenAlerta] = useState(false);
 
     console.log(itensMesa, 'itensMesa');
 
@@ -159,6 +173,28 @@ export function DashboardMesas() {
         setOpenDialog(true);
     };
     const handleCloseDialog = () => setOpenDialog(false);
+
+    const handleCloseComanda = () => {
+        setOpenAlerta(true);
+    }
+
+    const handleFechar = () => {
+        setOpenAlerta(false);
+    };
+
+    const handleConfirm = async () => {
+        console.log('bateu aqui');
+
+        try {
+            // Dispare a requisição aqui, por exemplo:
+            // await fecharComanda(idDaComanda);
+
+            console.log("Requisição para fechar a comanda enviada!");
+        } catch (error) {
+            console.error("Erro ao fechar a comanda:", error);
+        }
+        setOpenAlerta(false);
+    };
 
     const handleAddItem = (item: any) => {
         setItensMesa((prevItens) => [...prevItens, item]);
@@ -195,7 +231,7 @@ export function DashboardMesas() {
                                             </Button>
                                         </Grid2>
                                         <Grid2 size={6}>
-                                            <Button fullWidth variant="outlined" size="small" color='error'>
+                                            <Button fullWidth variant="outlined" size="small" color='error' onClick={handleCloseComanda}>
                                                 Fechar Comanda
                                             </Button>
                                         </Grid2>
@@ -212,6 +248,13 @@ export function DashboardMesas() {
                     onClose={handleCloseDialog}
                     onAddItem={handleAddItem}
                     mesa={mesaSelecionada}
+                />
+                <AlertaDialog
+                    open={openAlerta}
+                    onClose={handleFechar}
+                    onConfirm={handleConfirm}
+                    titulo="Atenção!"
+                    mensagem="Tem certeza que deseja fechar esta comanda?"
                 />
             </Box>
         </Container>
