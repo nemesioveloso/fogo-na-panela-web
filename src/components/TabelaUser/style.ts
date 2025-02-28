@@ -3,12 +3,14 @@ import styled from "styled-components";
 export const ProductsList = styled.div`
   flex: 1;
   overflow-x: auto;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 
   table {
     width: 100%;
     border-collapse: collapse;
     min-width: 600px;
-
+    
     thead {
       tr {
         th {
@@ -21,7 +23,7 @@ export const ProductsList = styled.div`
         }
       }
     }
-
+    
     tbody {
       tr {
         td {
@@ -37,26 +39,26 @@ export const ProductsList = styled.div`
   }
 
   
-  @media (max-width: 768px) {
+  @media (max-width: 1100px) {
     table, thead, tbody, th, td, tr {
       display: block;
     }
-
+    
     thead {
       display: none;
     }
-
+    
     table {
       min-width: 100%; 
     }
-
+    
     tbody {
       tr {
         margin-bottom: 1rem; 
-        border: 1px solid #ccc;
+        /* border: 1px solid #ccc; */
         border-radius: 8px;
         display: block;
-
+        
         td {
           display: flex;
           justify-content: space-between;

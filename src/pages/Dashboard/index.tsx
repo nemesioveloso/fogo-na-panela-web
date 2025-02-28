@@ -1,10 +1,13 @@
 import { Box } from "@mui/material";
-import { TabelaPaginada } from "../../components/Tabela";
+import { TabelaProdutos } from "../../components/TabelaProdutos";
+import { TabelaUser } from "../../components/TabelaUser";
+import { containerResponsivePadding } from "../../models/ResponsivePadding";
 
 export function Dashboard() {
     return (
-        <Box p={2}>
-            <TabelaPaginada />
+        <Box sx={{ containerResponsivePadding }}>
+            <TabelaProdutos />
+            <TabelaUser />
         </Box>
     )
 }

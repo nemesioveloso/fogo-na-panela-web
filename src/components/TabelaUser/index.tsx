@@ -11,121 +11,67 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { ProductsList } from "./style";
-import { DadosProduto } from "../../models/DadosProduto";
 import { getFormattedDate } from "../../function/function";
-import { CadastroDeProdutos } from "../CadastroDeProdutos";
+import { User } from "../../models/Users";
+import { CadastroDeUsuario } from "../CadastroDeUsuario";
 
-const dadosProdutos = [
+const users: User[] = [
   {
     id: 1,
-    nome: "Cerveja Pilsen",
-    categoria: "Bebida",
-    precoCompra: 2.0,
-    precoVenda: 5.0,
-    estoque: 20,
-    adicionado: "2023-01-10",
-    ultimaAlteracao: "2023-01-20",
+    nome: "João da Silva",
+    email: "joao.admin@example.com",
+    cpf: "111.111.111-11",
+    username: "joao_admin",
+    role: "admin",
+    admissao: "2025-01-01"
   },
   {
     id: 2,
-    nome: "Suco de Laranja",
-    categoria: "Bebida",
-    precoCompra: 3.0,
-    precoVenda: 7.0,
-    estoque: 20,
-    adicionado: "2023-02-05",
-    ultimaAlteracao: "2023-02-10",
+    nome: "Maria Souza",
+    email: "maria.souza@example.com",
+    cpf: "222.222.222-22",
+    username: "maria_souza",
+    role: "colaborador",
+    admissao: "2025-01-01"
   },
   {
     id: 3,
-    nome: "Hambúrguer Artesanal",
-    categoria: "Refeição",
-    precoCompra: 8.0,
-    precoVenda: 15.0,
-    estoque: 20,
-    adicionado: "2023-02-15",
-    ultimaAlteracao: "2023-02-20",
+    nome: "Pedro Oliveira",
+    email: "pedro.oliveira@example.com",
+    cpf: "333.333.333-33",
+    username: "pedro_oliveira",
+    role: "colaborador",
+    admissao: "2025-01-01"
   },
   {
     id: 4,
-    nome: "Pizza Margherita",
-    categoria: "Refeição",
-    precoCompra: 10.0,
-    precoVenda: 20.0,
-    estoque: 20,
-    adicionado: "2023-03-01",
-    ultimaAlteracao: "2023-03-05",
+    nome: "Ana Santos",
+    email: "ana.santos@example.com",
+    cpf: "444.444.444-44",
+    username: "ana_santos",
+    role: "colaborador",
+    admissao: "2025-01-01"
   },
   {
     id: 5,
-    nome: "Água Mineral",
-    categoria: "Bebida",
-    precoCompra: 1.0,
-    precoVenda: 2.0,
-    estoque: 20,
-    adicionado: "2023-01-05",
-    ultimaAlteracao: "2023-01-10",
-  },
-  {
-    id: 6,
-    nome: "Suco de Uva",
-    categoria: "Bebida",
-    precoCompra: 3.5,
-    precoVenda: 8.0,
-    estoque: 20,
-    adicionado: "2023-04-01",
-    ultimaAlteracao: "2023-04-15",
-  },
-  {
-    id: 7,
-    nome: "X-Salada",
-    categoria: "Refeição",
-    precoCompra: 7.0,
-    precoVenda: 12.0,
-    estoque: 20,
-    adicionado: "2023-04-10",
-    ultimaAlteracao: "2023-04-20",
-  },
-  {
-    id: 8,
-    nome: "Batata Frita",
-    categoria: "Acompanhamento",
-    precoCompra: 4.0,
-    precoVenda: 9.0,
-    estoque: 20,
-    adicionado: "2023-03-15",
-    ultimaAlteracao: "2023-03-20",
-  },
-  {
-    id: 9,
-    nome: "Refrigerante",
-    categoria: "Bebida",
-    precoCompra: 2.5,
-    precoVenda: 5.0,
-    estoque: 20,
-    adicionado: "2023-02-25",
-    ultimaAlteracao: "2023-03-01",
-  },
-  {
-    id: 10,
-    nome: "Salada Verde",
-    categoria: "Refeição",
-    precoCompra: 5.0,
-    precoVenda: 10.0,
-    estoque: 20,
-    adicionado: "2023-05-01",
-    ultimaAlteracao: "2023-05-02",
+    nome: "Carlos Almeida",
+    email: "carlos.almeida@example.com",
+    cpf: "555.555.555-55",
+    username: "carlos_almeida",
+    role: "colaborador",
+    admissao: "2025-01-01"
   },
 ];
 
-export function TabelaPaginada() {
+
+export function TabelaUser() {
   // const [dados, setDados] = useState([])
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
 
   const [dialogEdit, setDialogEdit] = useState(false);
-  const [dadosEdit, setDadosEdit] = useState<DadosProduto | null>(null);
+  const [dadosEdit, setDadosEdit] = useState<User | null>(null);
 
   const [open, setOpen] = useState(false);
 
@@ -149,7 +95,7 @@ export function TabelaPaginada() {
     setPage(0);
   };
 
-  const handleEdit = (item: DadosProduto) => {
+  const handleEdit = (item: User) => {
     setDadosEdit(item);
     setDialogEdit(true);
   };
@@ -171,51 +117,56 @@ export function TabelaPaginada() {
 
   return (
     <Box>
-      <Grid2 p={1} container justifyContent='end'>
-        <Grid2>
+      <Grid2 p={1} container>
+        <Grid2 size={6}>
+          <Typography variant="h5" textAlign='center'>
+            Tabela de Usuário
+          </Typography>
+        </Grid2>
+        <Grid2 size={6} textAlign='end'>
           <Button variant="contained" color="primary" onClick={handleOpenDialog}>
-            Adicionar Produto
+            Adicionar Usuário
           </Button>
         </Grid2>
       </Grid2>
       <Grid2 container p={1}>
         <Grid2 size={12}>
-          {dadosProdutos.length > 1 ? (
+          {users.length > 1 ? (
             <Box>
               <ProductsList>
                 <table>
                   <thead>
                     <tr>
                       <th>NOME</th>
-                      <th>CATEGORIA</th>
-                      <th>PREÇO DE COMPRA</th>
-                      <th>PRECO DE VENDA</th>
-                      <th>ADICIONADO</th>
-                      <th>ULTIMA ALTERAÇÃO</th>
-                      <th>ESTOQUE</th>
+                      <th>EMAIL</th>
+                      <th>CPF</th>
+                      <th>USERNAME</th>
+                      <th>PERMISSÃO</th>
+                      <th>ADMISSÃO</th>
                       <th>AÇÕES</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {dadosProdutos.map((dado: DadosProduto) => {
+                    {users.map((user: User) => {
                       return (
-                        <tr key={dado.id}>
-                          <td data-label="NOME">{dado.nome}</td>
-                          <td data-label="CATEGORIA">{dado.categoria}</td>
-                          <td data-label="PREÇO DE COMPRA">{dado.precoCompra}</td>
-                          <td data-label="PREÇO DE VENDA">{dado.precoVenda}</td>
-                          <td data-label="ADICIONADO">{dado.adicionado}</td>
-                          <td data-label="ULTIMA ALTERAÇÃO">{dado.ultimaAlteracao}</td>
-                          <td data-label="ESTOQUE">{dado.estoque}</td>
+                        <tr key={user.id}>
+                          <td data-label="NOME">{user.nome}</td>
+                          <td data-label="EMAIL">{user.email}</td>
+                          <td data-label="CPF">{user.cpf}</td>
+                          <td data-label="USERNAME">{user.username}</td>
+                          <td data-label="PERMISSÃO">{user.role}</td>
+                          <td data-label="ADMISSÃO">{user.admissao}</td>
                           <td data-label="AÇÕES">
-                            <Grid2 container spacing={1} wrap="nowrap"
-                              alignItems="center">
+                            <Grid2 container spacing={1}
+                              wrap="nowrap"
+                              alignItems="center"
+                              justifyContent='center'>
                               <Grid2 size='auto'>
                                 <Button
                                   fullWidth
                                   variant="contained"
                                   color="warning"
-                                  onClick={() => handleEdit(dado)}
+                                  onClick={() => handleEdit(user)}
                                 >
                                   Editar
                                 </Button>
@@ -225,7 +176,7 @@ export function TabelaPaginada() {
                                   fullWidth
                                   variant="contained"
                                   color="error"
-                                  onClick={() => handleDelete(dado.id)}
+                                  onClick={() => handleDelete(user.id)}
                                 >
                                   Apagar
                                 </Button>
@@ -286,9 +237,9 @@ export function TabelaPaginada() {
             <Grid2 size={12}>
               <TextField
                 fullWidth
-                id="categoria"
-                label="Categoria"
-                value={dadosEdit?.categoria || ""}
+                id="email"
+                label="E-mail"
+                value={dadosEdit?.email || ""}
                 onChange={(e) =>
                   setDadosEdit((prev) =>
                     prev
@@ -301,9 +252,9 @@ export function TabelaPaginada() {
             <Grid2 size={12}>
               <TextField
                 fullWidth
-                id="precoDeCompra"
-                label="Preço de Compra"
-                value={dadosEdit?.precoCompra || ""}
+                id="cpf"
+                label="CPF"
+                value={dadosEdit?.cpf || ""}
                 onChange={(e) =>
                   setDadosEdit((prev) =>
                     prev
@@ -316,9 +267,9 @@ export function TabelaPaginada() {
             <Grid2 size={12}>
               <TextField
                 fullWidth
-                id="precoDeVenda"
-                label="Preço de Venda"
-                value={dadosEdit?.precoVenda || ""}
+                id="username"
+                label="Username"
+                value={dadosEdit?.username || ""}
                 onChange={(e) =>
                   setDadosEdit((prev) =>
                     prev
@@ -331,9 +282,9 @@ export function TabelaPaginada() {
             <Grid2 size={12}>
               <TextField
                 fullWidth
-                id="estoque"
-                label="Estoque"
-                value={dadosEdit?.estoque || ""}
+                id="role"
+                label="Tipo de Permissão"
+                value={dadosEdit?.role || ""}
                 onChange={(e) =>
                   setDadosEdit((prev) =>
                     prev
@@ -346,9 +297,10 @@ export function TabelaPaginada() {
             <Grid2 size={12}>
               <TextField
                 fullWidth
-                id="ultimaAlteracao"
-                label="Data Alteração"
-                value={dadosEdit?.ultimaAlteracao || ""}
+                type="date"
+                id="admissao"
+                label="Admissão"
+                value={dadosEdit?.admissao || ""}
                 disabled
               />
             </Grid2>
@@ -366,7 +318,7 @@ export function TabelaPaginada() {
       </Dialog>
       <Dialog open={open} onClose={handleCloseDialog} maxWidth="md" fullWidth>
         <DialogContent>
-          <CadastroDeProdutos onSuccess={handleProdutoCadastradoComSucesso} />
+          <CadastroDeUsuario onSuccess={handleProdutoCadastradoComSucesso} />
         </DialogContent>
       </Dialog>
     </Box>

@@ -99,7 +99,7 @@ export function ResponsiveAppBar() {
                         variant="h5"
                         noWrap
                         component="a"
-                        href="/sobre"
+                        href="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },

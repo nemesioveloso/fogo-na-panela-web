@@ -3,6 +3,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { Produtos } from '../../models/Produtos'
+import { containerResponsivePadding } from '../../models/ResponsivePadding'
 
 interface CadastroDeProdutosProps {
     onSuccess?: () => void; // callback opcional
@@ -83,7 +84,7 @@ export function CadastroDeProdutos({ onSuccess }: CadastroDeProdutosProps) {
     }
 
     return (
-        <Container component="form" noValidate autoComplete="off" onSubmit={handleSubmit} sx={{ marginTop: '2rem', borderRadius: '8px', padding: '2rem' }}>
+        <Container component="form" noValidate autoComplete="off" onSubmit={handleSubmit} sx={[containerResponsivePadding, { marginTop: '2rem', borderRadius: '8px' }]}>
             <Typography mb={4} variant="h4" textAlign='center' color='textSecondary'>
                 Cadastro de Produtos
             </Typography>
