@@ -11,6 +11,7 @@ import { DetalhesMesaDialog } from '../../components/DetalhesMesaDialogProps';
 import { useState } from 'react';
 import { Mesa } from '../../models/DashboarMesas';
 import { AlertaDialog } from '../../components/Alerta';
+import { ItemAddMesa } from '../../models/ItemAddMesa';
 
 const mesas: Mesa[] = [
     {
@@ -162,7 +163,7 @@ const mesas: Mesa[] = [
 export function DashboardMesas() {
     const mesasAbertas = mesas.filter(mesa => mesa.status === 'Aberta');
     const [openDialog, setOpenDialog] = useState(false);
-    const [itensMesa, setItensMesa] = useState<any[]>([]);
+    const [itensMesa, setItensMesa] = useState<ItemAddMesa[]>([]);
     const [mesaSelecionada, setMesaSelecionada] = useState<Mesa | null>(null);
     const [openAlerta, setOpenAlerta] = useState(false);
 
@@ -196,7 +197,7 @@ export function DashboardMesas() {
         setOpenAlerta(false);
     };
 
-    const handleAddItem = (item: any) => {
+    const handleAddItem = (item: ItemAddMesa) => {
         setItensMesa((prevItens) => [...prevItens, item]);
         console.log('Item adicionado:', item);
     };
