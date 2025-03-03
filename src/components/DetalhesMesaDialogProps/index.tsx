@@ -15,6 +15,7 @@ interface Item {
     categoria: string;
     nome: string;
     quantidade: number;
+    observacao: string;
 }
 
 interface DetalhesMesaDialogProps {
@@ -25,7 +26,7 @@ interface DetalhesMesaDialogProps {
 }
 
 export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesMesaDialogProps) {
-    const [itemData, setItemData] = useState<Item>({ categoria: '', nome: '', quantidade: 1 });
+    const [itemData, setItemData] = useState<Item>({ categoria: '', nome: '', quantidade: 1, observacao: '' });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -35,11 +36,35 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
         });
     };
 
+    const [errors, setErrors] = useState({
+        categoria: false,
+        nome: false,
+        quantidade: false,
+      });
+
     const handleSubmit = () => {
+        const newErrors = {
+          categoria: !itemData.categoria.trim(),
+          nome: !itemData.nome.trim(),
+          quantidade: !itemData.quantidade || itemData.quantidade <= 0,
+        };
+        setErrors(newErrors);
+    
+        // Se algum campo estiver inválido, não prossegue
+        const hasError = Object.values(newErrors).some((val) => val === true);
+        if (hasError) {
+          return; // Interrompe o fluxo, exibindo os erros no form
+        }
+    
+        // Caso tudo esteja ok, adiciona o item
         onAddItem(itemData);
-        setItemData({ categoria: '', nome: '', quantidade: 1 });
+    
+        // Limpa os campos
+        setItemData({ categoria: '', nome: '', quantidade: 1, observacao: '' });
+    
+        // Fecha o dialog
         onClose();
-    };
+      };
 
     return (
         <Dialog fullWidth aria-hidden='false' open={open} onClose={(_event, reason) => {
@@ -76,6 +101,8 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
                     fullWidth
                     value={itemData.categoria}
                     onChange={handleChange}
+                    error={errors.categoria} // se for true, fica vermelho
+          helperText={errors.categoria ? "Campo obrigatório" : ""}
                 />
                 <TextField
                     margin="dense"
@@ -84,6 +111,8 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
                     fullWidth
                     value={itemData.nome}
                     onChange={handleChange}
+                    error={errors.nome}
+          helperText={errors.nome ? "Campo obrigatório" : ""}
                 />
                 <TextField
                     margin="dense"
@@ -93,8 +122,19 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
                     fullWidth
                     value={itemData.quantidade}
                     onChange={handleChange}
-                    inputProps={{ min: 0 }}
+                    inputProps={{ min: 1 }}
+                    error={errors.quantidade}
+          helperText={errors.quantidade ? "Quantidade deve ser maior que 0" : ""}
                 />
+                <TextField
+                label="Observações"
+                multiline
+                rows={4}
+                fullWidth
+                margin="dense"
+                value={itemData.observacao}
+                onChange={handleChange}
+              />
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="error">
