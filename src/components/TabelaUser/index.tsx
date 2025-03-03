@@ -216,7 +216,9 @@ export function TabelaUser() {
         </Grid2>
       </Grid2>
 
-      <Dialog open={dialogEdit} onClose={handleClose} aria-hidden='true' fullWidth>
+      <Dialog open={dialogEdit} aria-hidden='true' fullWidth onClose={(_event, reason) => {
+            if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
+             handleClose()}}>
         <DialogContent>
           <DialogContentText textAlign="center">Produto Editar</DialogContentText>
           <Grid2 container p={2} spacing={2}>
@@ -317,7 +319,9 @@ export function TabelaUser() {
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={open} onClose={handleCloseDialog} maxWidth="md" fullWidth>
+      <Dialog open={open} maxWidth="md" fullWidth onClose={(_event, reason) => {
+            if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
+            handleCloseDialog()}}>
         <DialogContent>
           <CadastroDeUsuario onSuccess={handleProdutoCadastradoComSucesso} />
         </DialogContent>

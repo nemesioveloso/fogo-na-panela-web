@@ -17,7 +17,9 @@ interface AlertaDialogProps {
 
 export function AlertaDialog({ open, onClose, titulo, mensagem, onConfirm }: AlertaDialogProps) {
     return (
-        <Dialog open={open} onClose={onClose} fullWidth>
+        <Dialog open={open} fullWidth onClose={(_event, reason) => {
+            if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
+            onClose()}}>
             <DialogTitle>{titulo}</DialogTitle>
             <DialogContent>
                 <DialogContentText>{mensagem}</DialogContentText>

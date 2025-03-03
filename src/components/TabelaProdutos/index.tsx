@@ -272,7 +272,9 @@ export function TabelaProdutos() {
         </Grid2>
       </Grid2>
 
-      <Dialog fullWidth open={dialogEdit} onClose={handleClose} aria-hidden='true'>
+      <Dialog fullWidth open={dialogEdit} aria-hidden='true' onClose={(_event, reason) => {
+            if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
+             handleClose()}}>
         <DialogContent>
           <DialogContentText textAlign="center">Produto Editar</DialogContentText>
           <Grid2 container p={2} spacing={2}>
@@ -372,7 +374,9 @@ export function TabelaProdutos() {
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={open} onClose={handleCloseDialog} maxWidth="md" fullWidth>
+      <Dialog open={open} maxWidth="md" fullWidth onClose={(_event, reason) => {
+            if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
+            handleCloseDialog()}}>
         <DialogContent>
           <CadastroDeProdutos onSuccess={handleProdutoCadastradoComSucesso} />
         </DialogContent>
