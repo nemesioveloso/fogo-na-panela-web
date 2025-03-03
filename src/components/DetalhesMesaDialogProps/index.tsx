@@ -42,7 +42,7 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
     };
 
     return (
-        <Dialog aria-hidden='false' open={open} onClose={(_event, reason) => {
+        <Dialog fullWidth aria-hidden='false' open={open} onClose={(_event, reason) => {
             if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
             onClose();
         }}

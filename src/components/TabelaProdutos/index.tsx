@@ -14,6 +14,7 @@ import { ProductsList } from "./style";
 import { DadosProduto } from "../../models/DadosProduto";
 import { getFormattedDate } from "../../function/function";
 import { CadastroDeProdutos } from "../CadastroDeProdutos";
+import { containerResponsivePadding } from "../../models/ResponsivePadding";
 
 const dadosProdutos = [
   {
@@ -170,7 +171,7 @@ export function TabelaProdutos() {
   };
 
   return (
-    <Box>
+    <Box sx={containerResponsivePadding}>
       <Grid2 p={1} container>
         <Grid2 size={6}>
           <Typography variant="h5" textAlign='center'>
@@ -271,7 +272,7 @@ export function TabelaProdutos() {
         </Grid2>
       </Grid2>
 
-      <Dialog open={dialogEdit} onClose={handleClose} aria-hidden='true'>
+      <Dialog fullWidth open={dialogEdit} onClose={handleClose} aria-hidden='true'>
         <DialogContent>
           <DialogContentText textAlign="center">Produto Editar</DialogContentText>
           <Grid2 container p={2} spacing={2}>

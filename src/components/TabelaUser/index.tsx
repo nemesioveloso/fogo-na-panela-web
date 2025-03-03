@@ -14,6 +14,7 @@ import { ProductsList } from "./style";
 import { getFormattedDate } from "../../function/function";
 import { User } from "../../models/Users";
 import { CadastroDeUsuario } from "../CadastroDeUsuario";
+import { containerResponsivePadding } from "../../models/ResponsivePadding";
 
 const users: User[] = [
   {
@@ -116,7 +117,7 @@ export function TabelaUser() {
   };
 
   return (
-    <Box>
+    <Box sx={containerResponsivePadding}>
       <Grid2 p={1} container>
         <Grid2 size={6}>
           <Typography variant="h5" textAlign='center'>
@@ -215,7 +216,7 @@ export function TabelaUser() {
         </Grid2>
       </Grid2>
 
-      <Dialog open={dialogEdit} onClose={handleClose} aria-hidden='true'>
+      <Dialog open={dialogEdit} onClose={handleClose} aria-hidden='true' fullWidth>
         <DialogContent>
           <DialogContentText textAlign="center">Produto Editar</DialogContentText>
           <Grid2 container p={2} spacing={2}>

@@ -17,7 +17,7 @@ interface AlertaDialogProps {
 
 export function AlertaDialog({ open, onClose, titulo, mensagem, onConfirm }: AlertaDialogProps) {
     return (
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={open} onClose={onClose} fullWidth>
             <DialogTitle>{titulo}</DialogTitle>
             <DialogContent>
                 <DialogContentText>{mensagem}</DialogContentText>
