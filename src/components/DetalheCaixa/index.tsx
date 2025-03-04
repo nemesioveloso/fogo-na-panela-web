@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, Grid2 } from "@mui/material";
 
 // Exemplo de interface da Mesa
 interface Detalhe {
@@ -128,11 +128,11 @@ export function DetalheCaixa({ open, onClose }: DetalheCaixaProps) {
             <Typography variant="subtitle1" gutterBottom>
               <strong>Mesa {mesa.id}</strong> - Status: {mesa.status} - Pagamento: <em>{mesa.pagamento}</em>
             </Typography>
-            <Grid container spacing={1}>
+            <Grid2 container spacing={1}>
               {mesa.detalhes.map((detalhe, idx) => {
                 const totalItem = detalhe.precoUnitario * detalhe.quantidade;
                 return (
-                  <Grid item xs={12} sm={6} md={4} key={idx}>
+                  <Grid2 size={{xs: 12, sm:6, md:4} } key={idx}>
                     <Box>
                       <Typography variant="body2">
                         <strong>Categoria:</strong> {detalhe.categoria}
@@ -152,10 +152,10 @@ export function DetalheCaixa({ open, onClose }: DetalheCaixaProps) {
                         {totalItem.toFixed(2)}
                       </Typography>
                     </Box>
-                  </Grid>
+                  </Grid2>
                 );
               })}
-            </Grid>
+            </Grid2>
             <Typography variant="body1" sx={{ mt: 1 }}>
               <strong>Total da Mesa:</strong> R$ {mesa.total.toFixed(2)}
             </Typography>
