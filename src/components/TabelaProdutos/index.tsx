@@ -7,7 +7,8 @@ import {
   DialogActions,
   TextField,
   DialogContent,
-  DialogContentText, Typography,
+  DialogContentText,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { ProductsList } from "./style";
@@ -134,7 +135,7 @@ export function TabelaProdutos() {
   const handleCloseDialog = () => setOpen(false);
   const handleProdutoCadastradoComSucesso = () => {
     setOpen(false);
-  }
+  };
 
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
@@ -174,12 +175,16 @@ export function TabelaProdutos() {
     <Box sx={containerResponsivePadding}>
       <Grid2 p={1} container>
         <Grid2 size={6}>
-          <Typography variant="h5" textAlign='center'>
+          <Typography variant="h5" textAlign="center">
             Tabela de Produtos
           </Typography>
         </Grid2>
-        <Grid2 size={6} textAlign='end'>
-          <Button variant="contained" color="primary" onClick={handleOpenDialog}>
+        <Grid2 size={6} textAlign="end">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleOpenDialog}
+          >
             Adicionar Produto
           </Button>
         </Grid2>
@@ -199,26 +204,39 @@ export function TabelaProdutos() {
                       <th>ADICIONADO</th>
                       <th>ULTIMA ALTERAÇÃO</th>
                       <th>ESTOQUE</th>
+                      <th>LUCRO ESTIMADO</th>
                       <th>AÇÕES</th>
                     </tr>
                   </thead>
                   <tbody>
                     {dadosProdutos.map((dado: DadosProduto) => {
+                      const lucroEstimado =
+                        (dado.precoVenda - dado.precoCompra) * dado.estoque;
                       return (
                         <tr key={dado.id}>
                           <td data-label="NOME">{dado.nome}</td>
                           <td data-label="CATEGORIA">{dado.categoria}</td>
-                          <td data-label="PREÇO DE COMPRA">{dado.precoCompra}</td>
+                          <td data-label="PREÇO DE COMPRA">
+                            {dado.precoCompra}
+                          </td>
                           <td data-label="PREÇO DE VENDA">{dado.precoVenda}</td>
                           <td data-label="ADICIONADO">{dado.adicionado}</td>
-                          <td data-label="ULTIMA ALTERAÇÃO">{dado.ultimaAlteracao}</td>
+                          <td data-label="ULTIMA ALTERAÇÃO">
+                            {dado.ultimaAlteracao}
+                          </td>
                           <td data-label="ESTOQUE">{dado.estoque}</td>
+                          <td data-label="LUCRO ESTIMADO">
+                            {lucroEstimado.toFixed(2)}
+                          </td>
                           <td data-label="AÇÕES">
-                            <Grid2 container spacing={1}
+                            <Grid2
+                              container
+                              spacing={1}
                               wrap="nowrap"
                               alignItems="center"
-                              justifyContent='center'>
-                              <Grid2 size='auto'>
+                              justifyContent="center"
+                            >
+                              <Grid2 size="auto">
                                 <Button
                                   fullWidth
                                   variant="contained"
@@ -228,7 +246,7 @@ export function TabelaProdutos() {
                                   Editar
                                 </Button>
                               </Grid2>
-                              <Grid2 size='auto'>
+                              <Grid2 size="auto">
                                 <Button
                                   fullWidth
                                   variant="contained"
@@ -264,7 +282,7 @@ export function TabelaProdutos() {
             </Box>
           ) : (
             <Box>
-              <Typography variant="h4" textAlign='center'>
+              <Typography variant="h4" textAlign="center">
                 Não existe produtos cadastrados.
               </Typography>
             </Box>
@@ -272,11 +290,19 @@ export function TabelaProdutos() {
         </Grid2>
       </Grid2>
 
-      <Dialog fullWidth open={dialogEdit} aria-hidden='true' onClose={(_event, reason) => {
-            if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
-             handleClose()}}>
+      <Dialog
+        fullWidth
+        open={dialogEdit}
+        aria-hidden="true"
+        onClose={(_event, reason) => {
+          if (reason === "backdropClick" || reason === "escapeKeyDown") return;
+          handleClose();
+        }}
+      >
         <DialogContent>
-          <DialogContentText textAlign="center">Produto Editar</DialogContentText>
+          <DialogContentText textAlign="center">
+            Produto Editar
+          </DialogContentText>
           <Grid2 container p={2} spacing={2}>
             <Grid2 size={12}>
               <TextField
@@ -286,9 +312,7 @@ export function TabelaProdutos() {
                 value={dadosEdit?.nome || ""}
                 onChange={(e) =>
                   setDadosEdit((prev) =>
-                    prev
-                      ? { ...prev, nome: e.target.value }
-                      : null
+                    prev ? { ...prev, nome: e.target.value } : null
                   )
                 }
               />
@@ -301,9 +325,7 @@ export function TabelaProdutos() {
                 value={dadosEdit?.categoria || ""}
                 onChange={(e) =>
                   setDadosEdit((prev) =>
-                    prev
-                      ? { ...prev, categoria: e.target.value }
-                      : null
+                    prev ? { ...prev, categoria: e.target.value } : null
                   )
                 }
               />
@@ -317,7 +339,10 @@ export function TabelaProdutos() {
                 onChange={(e) =>
                   setDadosEdit((prev) =>
                     prev
-                      ? { ...prev, precoCompra: parseFloat(e.target.value) || 0 }
+                      ? {
+                          ...prev,
+                          precoCompra: parseFloat(e.target.value) || 0,
+                        }
                       : null
                   )
                 }
@@ -374,9 +399,15 @@ export function TabelaProdutos() {
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={open} maxWidth="md" fullWidth onClose={(_event, reason) => {
-            if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
-            handleCloseDialog()}}>
+      <Dialog
+        open={open}
+        maxWidth="md"
+        fullWidth
+        onClose={(_event, reason) => {
+          if (reason === "backdropClick" || reason === "escapeKeyDown") return;
+          handleCloseDialog();
+        }}
+      >
         <DialogContent>
           <CadastroDeProdutos onSuccess={handleProdutoCadastradoComSucesso} />
         </DialogContent>

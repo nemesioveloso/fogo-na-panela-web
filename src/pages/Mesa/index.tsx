@@ -10,8 +10,8 @@ import {
 import { DetalhesMesaDialog } from '../../components/DetalhesMesaDialogProps';
 import { useState } from 'react';
 import { Mesa } from '../../models/DashboarMesas';
-import { AlertaDialog } from '../../components/Alerta';
 import { ItemAddMesa } from '../../models/ItemAddMesa';
+import { AlertaFechamentoCaixa } from '../../components/AlertaFechamentoCaixa';
 
 const mesas: Mesa[] = [
     {
@@ -183,8 +183,8 @@ export function DashboardMesas() {
         setOpenAlerta(false);
     };
 
-    const handleConfirm = async () => {
-        console.log('bateu aqui');
+    const handleConfirm = async (tipoPagamento: string) => {
+        console.log('bateu aqui', tipoPagamento);
 
         try {
             // Dispare a requisição aqui, por exemplo:
@@ -250,7 +250,7 @@ export function DashboardMesas() {
                     onAddItem={handleAddItem}
                     mesa={mesaSelecionada}
                 />
-                <AlertaDialog
+                <AlertaFechamentoCaixa
                     open={openAlerta}
                     onClose={handleFechar}
                     onConfirm={handleConfirm}

@@ -89,8 +89,17 @@ export function ResponsiveAppBar() {
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page.id} onClick={handleCloseNavMenu}>
-                                    <Typography sx={{ textAlign: 'center' }}>{page.nome}</Typography>
-                                </MenuItem>
+                                <Button
+                                  href={page.rota}
+                                  sx={{
+                                    color: 'inherit',
+                                    textTransform: 'none',
+                                    width: '100%',
+                                  }}
+                                >
+                                  {page.nome}
+                                </Button>
+                              </MenuItem>
                             ))}
                         </Menu>
                     </Box>
