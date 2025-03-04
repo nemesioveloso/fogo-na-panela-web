@@ -409,7 +409,7 @@ export function TabelaProdutos() {
         }}
       >
         <DialogContent>
-          <CadastroDeProdutos onSuccess={handleProdutoCadastradoComSucesso} />
+          <CadastroDeProdutos onClose={handleCloseDialog} onSuccess={handleProdutoCadastradoComSucesso} />
         </DialogContent>
       </Dialog>
     </Box>

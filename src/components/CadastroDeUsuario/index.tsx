@@ -7,9 +7,10 @@ import { containerResponsivePadding } from "../../models/ResponsivePadding";
 
 interface CadastroDeUsuarioProps {
     onSuccess?: () => void;
+    onClose?: () => void;
 }
 
-export function CadastroDeUsuario({ onSuccess }: CadastroDeUsuarioProps) {
+export function CadastroDeUsuario({ onSuccess, onClose }: CadastroDeUsuarioProps) {
     const [values, setValues] = useState<CreateUser>({
         nome: "",
         email: "",
@@ -149,7 +150,17 @@ export function CadastroDeUsuario({ onSuccess }: CadastroDeUsuarioProps) {
                     />
                 </Grid2>
             </Grid2>
-            <Grid2 container justifyContent="end" mt={1}>
+            <Grid2 container justifyContent="end" mt={1} spacing={1}>
+                <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                          <Button
+                            fullWidth
+                            onClick={onClose}
+                            variant="contained"
+                            color="error"
+                          >
+                            Cancelar
+                          </Button>
+                        </Grid2>
                 <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                     <Button fullWidth type="submit" variant="contained" color="success">
                         Salvar

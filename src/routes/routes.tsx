@@ -5,6 +5,7 @@ import { NotFound } from "../pages/NotFound";
 import { Dashboard } from "../pages/Dashboard";
 import { DashboardMesas } from "../pages/Mesa";
 import { Login } from "../pages/Login";
+import { PaginaCozinha } from "../pages/Cozinha";
 
 export function Router() {
     return (
@@ -14,6 +15,7 @@ export function Router() {
             <Route path="login" element={<Login />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="dashboardMesas" element={<DashboardMesas />} />
+            <Route path="cozinha" element={<PaginaCozinha />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     )

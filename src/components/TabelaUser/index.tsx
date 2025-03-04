@@ -323,7 +323,7 @@ export function TabelaUser() {
             if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
             handleCloseDialog()}}>
         <DialogContent>
-          <CadastroDeUsuario onSuccess={handleProdutoCadastradoComSucesso} />
+          <CadastroDeUsuario onClose={handleCloseDialog} onSuccess={handleProdutoCadastradoComSucesso} />
         </DialogContent>
       </Dialog>
     </Box>
