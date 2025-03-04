@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { containerResponsivePadding } from "../../models/ResponsivePadding";
 import image from "../../assets/banner.png";
+import { DetalheCaixa } from "../DetalheCaixa";
 
 const totalCaixaFicticio = 1200.5;
 const detalhesVendasFicticias = {
@@ -51,6 +52,7 @@ export function CardCaixa() {
     "retirada" | "adicao"
   >("retirada");
   const [observacoes, setObservacoes] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -68,6 +70,15 @@ export function CardCaixa() {
   /** Fecha o Dialog de detalhes */
   const handleCloseDetalhes = () => {
     setAbrirDetalhes(false);
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  // Função para fechar o Dialog
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   /** Confirma a movimentação e/ou salva as observações */
@@ -161,6 +172,11 @@ export function CardCaixa() {
                           Detalhar Caixa
                         </Button>
                       </Grid2>
+                      <Grid2 size="auto">
+                        <Button variant="contained" onClick={handleOpenDialog}>
+                          Detalhe Completo do Caixa
+                        </Button>
+                      </Grid2>
                     </Grid2>
                   </Box>
                 </Grid2>
@@ -197,9 +213,7 @@ export function CardCaixa() {
                   </Typography>
                   {detalhesVendasFicticias.anotacoes.map((anotacao) => (
                     <Box key={anotacao.id} mb={1}>
-                      <Typography variant="body1">
-                        {anotacao.tipo}
-                      </Typography>
+                      <Typography variant="body1">{anotacao.tipo}</Typography>
                       <Typography variant="body2">{anotacao.obs}</Typography>
                     </Box>
                   ))}
@@ -254,13 +268,20 @@ export function CardCaixa() {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={handleCloseDetalhes} color="error" variant="contained">Cancelar</Button>
+            <Button
+              onClick={handleCloseDetalhes}
+              color="error"
+              variant="contained"
+            >
+              Cancelar
+            </Button>
             <Button variant="contained" onClick={handleConfirmMovimentacao}>
               Confirmar
             </Button>
           </DialogActions>
         </Dialog>
       </Grid2>
+      <DetalheCaixa open={openDialog} onClose={handleCloseDialog} />
     </Box>
   );
 }
