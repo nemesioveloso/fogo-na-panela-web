@@ -41,7 +41,7 @@ export function AlertaFechamentoCaixa({
   };
 
   return (
-    <Dialog open={open} fullWidth onClose={handleCloseDialog}>
+    <Dialog open={open} fullWidth onClose={handleCloseDialog} aria-hidden='false'>
       <DialogTitle>{titulo}</DialogTitle>
       <DialogContent>
         <DialogContentText>{mensagem}</DialogContentText>

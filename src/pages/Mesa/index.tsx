@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { Mesa } from '../../models/DashboarMesas';
 import { ItemAddMesa } from '../../models/ItemAddMesa';
 import { AlertaFechamentoCaixa } from '../../components/AlertaFechamentoCaixa';
+import { DialogNovaMesa } from '../../components/DialogNovaMesa';
 
 const mesas: Mesa[] = [
     {
@@ -166,8 +167,23 @@ export function DashboardMesas() {
     const [itensMesa, setItensMesa] = useState<ItemAddMesa[]>([]);
     const [mesaSelecionada, setMesaSelecionada] = useState<Mesa | null>(null);
     const [openAlerta, setOpenAlerta] = useState(false);
+    const [mesaFecharId, setMesaFecharId] = useState<number | null>(null);
+    const [openNovaMesa, setOpenNovaMesa] = useState(false);
+    const [novaMesas, setMesas] = useState<number[]>([]);
 
-    console.log(itensMesa, 'itensMesa');
+    const handleOpenNovaMesa = () => {
+        setOpenNovaMesa(true);
+    };
+
+    const handleCloseNovaMesa = () => {
+        setOpenNovaMesa(false);
+    };
+
+    const handleConfirmNovaMesa = (numeroMesa: number) => {
+        console.log("Criando nova mesa:", numeroMesa);
+        setMesas((prev) => [...prev, numeroMesa]);
+        setOpenNovaMesa(false);
+    };
 
     const handleOpenDialog = (mesa: Mesa) => {
         setMesaSelecionada(mesa);
@@ -175,21 +191,21 @@ export function DashboardMesas() {
     };
     const handleCloseDialog = () => setOpenDialog(false);
 
-    const handleCloseComanda = () => {
+    const handleCloseComanda = (id: number) => {
         setOpenAlerta(true);
+        setMesaFecharId(id);
     }
 
     const handleFechar = () => {
         setOpenAlerta(false);
+        setMesaFecharId(null);
     };
 
     const handleConfirm = async (tipoPagamento: string) => {
-        console.log('bateu aqui', tipoPagamento);
+        console.log('Tipo de pagamento: ', tipoPagamento);
+        console.log('Mesa fechada: ', mesaFecharId);
 
         try {
-            // Dispare a requisição aqui, por exemplo:
-            // await fecharComanda(idDaComanda);
-
             console.log("Requisição para fechar a comanda enviada!");
         } catch (error) {
             console.error("Erro ao fechar a comanda:", error);
@@ -208,7 +224,7 @@ export function DashboardMesas() {
                 Dashboard de Mesas
             </Typography>
             <Box display="flex" justifyContent="center" mb={2}>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={handleOpenNovaMesa}>
                     Nova Mesa
                 </Button>
             </Box>
@@ -232,7 +248,7 @@ export function DashboardMesas() {
                                             </Button>
                                         </Grid2>
                                         <Grid2 size={6}>
-                                            <Button fullWidth variant="outlined" size="small" color='error' onClick={handleCloseComanda}>
+                                            <Button fullWidth variant="outlined" size="small" color='error' onClick={() => handleCloseComanda(mesa.id)}>
                                                 Fechar Comanda
                                             </Button>
                                         </Grid2>
@@ -255,7 +271,12 @@ export function DashboardMesas() {
                     onClose={handleFechar}
                     onConfirm={handleConfirm}
                     titulo="Atenção!"
-                    mensagem="Tem certeza que deseja fechar esta comanda?"
+                    mensagem={`Tem certeza que deseja fechar a comanda da mesa ${mesaFecharId}?`}
+                />
+                <DialogNovaMesa
+                    open={openNovaMesa}
+                    onClose={handleCloseNovaMesa}
+                    onConfirm={handleConfirmNovaMesa}
                 />
             </Box>
         </Container>

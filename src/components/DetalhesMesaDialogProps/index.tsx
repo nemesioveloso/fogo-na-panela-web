@@ -40,38 +40,37 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
         categoria: false,
         nome: false,
         quantidade: false,
-      });
+    });
 
     const handleSubmit = () => {
         const newErrors = {
-          categoria: !itemData.categoria.trim(),
-          nome: !itemData.nome.trim(),
-          quantidade: !itemData.quantidade || itemData.quantidade <= 0,
+            categoria: !itemData.categoria.trim(),
+            nome: !itemData.nome.trim(),
+            quantidade: !itemData.quantidade || itemData.quantidade <= 0,
         };
         setErrors(newErrors);
-    
+
         // Se algum campo estiver inválido, não prossegue
         const hasError = Object.values(newErrors).some((val) => val === true);
         if (hasError) {
-          return; // Interrompe o fluxo, exibindo os erros no form
+            return; // Interrompe o fluxo, exibindo os erros no form
         }
-    
+
         // Caso tudo esteja ok, adiciona o item
         onAddItem(itemData);
-    
+
         // Limpa os campos
         setItemData({ categoria: '', nome: '', quantidade: 1, observacao: '' });
-    
+
         // Fecha o dialog
         onClose();
-      };
+    };
 
     return (
-        <Dialog fullWidth aria-hidden='false' open={open} onClose={(_event, reason) => {
+        <Dialog fullWidth aria-hidden='true' open={open} onClose={(_event, reason) => {
             if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
             onClose();
-        }}
-            disableEscapeKeyDown>
+        }} disableEscapeKeyDown>
             <DialogTitle textAlign='center'>Detalhes da Mesa {mesa?.id}</DialogTitle>
             <DialogContent>
                 <Grid2 container spacing={1}>
@@ -102,7 +101,7 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
                     value={itemData.categoria}
                     onChange={handleChange}
                     error={errors.categoria} // se for true, fica vermelho
-          helperText={errors.categoria ? "Campo obrigatório" : ""}
+                    helperText={errors.categoria ? "Campo obrigatório" : ""}
                 />
                 <TextField
                     margin="dense"
@@ -112,7 +111,7 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
                     value={itemData.nome}
                     onChange={handleChange}
                     error={errors.nome}
-          helperText={errors.nome ? "Campo obrigatório" : ""}
+                    helperText={errors.nome ? "Campo obrigatório" : ""}
                 />
                 <TextField
                     margin="dense"
@@ -124,17 +123,17 @@ export function DetalhesMesaDialog({ open, onClose, onAddItem, mesa }: DetalhesM
                     onChange={handleChange}
                     inputProps={{ min: 1 }}
                     error={errors.quantidade}
-          helperText={errors.quantidade ? "Quantidade deve ser maior que 0" : ""}
+                    helperText={errors.quantidade ? "Quantidade deve ser maior que 0" : ""}
                 />
                 <TextField
-                label="Observações"
-                multiline
-                rows={4}
-                fullWidth
-                margin="dense"
-                value={itemData.observacao}
-                onChange={handleChange}
-              />
+                    label="Observações"
+                    multiline
+                    rows={4}
+                    fullWidth
+                    margin="dense"
+                    value={itemData.observacao}
+                    onChange={handleChange}
+                />
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="error">
