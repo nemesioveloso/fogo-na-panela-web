@@ -19,6 +19,7 @@ interface FormCriarConta {
     telefone: string;
     razaoSocial: string;
     email: string;
+    senha: string;
     estado: string;
     cidade: string;
 }
@@ -33,6 +34,7 @@ export function CriarConta() {
         telefone: "",
         razaoSocial: "",
         email: "",
+        senha: "",
         estado: "",
         cidade: "",
     });
@@ -46,6 +48,7 @@ export function CriarConta() {
         telefone: false,
         razaoSocial: false,
         email: false,
+        senha: false,
         estado: false,
         cidade: false,
     });
@@ -59,6 +62,7 @@ export function CriarConta() {
         telefone: "",
         razaoSocial: "",
         email: "",
+        senha: "",
         estado: "",
         cidade: "",
     });
@@ -78,6 +82,7 @@ export function CriarConta() {
             telefone: !values.telefone.trim(),
             razaoSocial: !values.razaoSocial.trim(),
             email: !validateEmail(values.email),
+            senha: !values.senha.trim(),
             estado: !values.estado.trim(),
             cidade: !values.cidade.trim(),
         };
@@ -93,6 +98,7 @@ export function CriarConta() {
             telefone: newErrors.telefone ? "Telefone é obrigatório." : "",
             razaoSocial: newErrors.razaoSocial ? "Razão social é obrigatória." : "",
             email: newErrors.email ? "Email inválido ou não preenchido." : "",
+            senha: newErrors.senha ? "Senha é obrigatória." : "",
             estado: newErrors.estado ? "Estado é obrigatório." : "",
             cidade: newErrors.cidade ? "Cidade é obrigatória." : "",
         };
@@ -116,6 +122,7 @@ export function CriarConta() {
                 telefone: "",
                 razaoSocial: "",
                 email: "",
+                senha: "",
                 estado: "",
                 cidade: "",
             });
@@ -241,6 +248,18 @@ export function CriarConta() {
                         onChange={handleChange}
                         error={errors.email}
                         helperText={errorMessages.email}
+                    />
+                </Grid2>
+                <Grid2 size={{ xs: 12, sm: 6 }}>
+                    <TextField
+                        fullWidth
+                        label="Senha"
+                        name="senha"
+                        type="password"
+                        value={values.senha}
+                        onChange={handleChange}
+                        error={errors.senha}
+                        helperText={errorMessages.senha}
                     />
                 </Grid2>
 
