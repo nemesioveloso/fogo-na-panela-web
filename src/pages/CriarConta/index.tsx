@@ -8,11 +8,11 @@ import {
     Typography,
 } from "@mui/material";
 import { toast } from "react-toastify";
-import { validateCPF, validateEmail } from "../../function/function";
+import { validateCPFOrCNPJ, validateEmail } from "../../function/function";
 
 interface FormCriarConta {
     nome: string;
-    cpf: string;
+    cpfCnpj: string;
     endereco: string;
     dataNascimento: string;
     cep: string;
@@ -26,7 +26,7 @@ interface FormCriarConta {
 export function CriarConta() {
     const [values, setValues] = useState<FormCriarConta>({
         nome: "",
-        cpf: "",
+        cpfCnpj: "",
         endereco: "",
         dataNascimento: "",
         cep: "",
@@ -39,7 +39,7 @@ export function CriarConta() {
 
     const [errors, setErrors] = useState({
         nome: false,
-        cpf: false,
+        cpfCnpj: false,
         endereco: false,
         dataNascimento: false,
         cep: false,
@@ -52,7 +52,7 @@ export function CriarConta() {
 
     const [errorMessages, setErrorMessages] = useState({
         nome: "",
-        cpf: "",
+        cpfCnpj: "",
         endereco: "",
         dataNascimento: "",
         cep: "",
@@ -71,7 +71,7 @@ export function CriarConta() {
     const validateFields = (): boolean => {
         const newErrors = {
             nome: !values.nome.trim(),
-            cpf: !validateCPF(values.cpf),
+            cpfCnpj: !validateCPFOrCNPJ(values.cpfCnpj),
             endereco: !values.endereco.trim(),
             dataNascimento: !values.dataNascimento,
             cep: !values.cep.trim(),
@@ -84,7 +84,7 @@ export function CriarConta() {
 
         const newErrorMessages = {
             nome: newErrors.nome ? "Nome é obrigatório." : "",
-            cpf: newErrors.cpf ? "CPF inválido." : "",
+            cpfCnpj: newErrors.cpfCnpj ? "CPF/CNPJ inválido." : "",
             endereco: newErrors.endereco ? "Endereço é obrigatório." : "",
             dataNascimento: newErrors.dataNascimento
                 ? "Data de nascimento é obrigatória."
@@ -109,7 +109,7 @@ export function CriarConta() {
             toast.success("Conta criada com sucesso!");
             setValues({
                 nome: "",
-                cpf: "",
+                cpfCnpj: "",
                 endereco: "",
                 dataNascimento: "",
                 cep: "",
@@ -161,12 +161,12 @@ export function CriarConta() {
                 <Grid2 size={{ xs: 12, sm: 6 }}>
                     <TextField
                         fullWidth
-                        label="CPF (apenas números)"
-                        name="cpf"
-                        value={values.cpf}
+                        label="CPF/CNPJ (apenas números)"
+                        name="cpfCnpj"
+                        value={values.cpfCnpj}
                         onChange={handleChange}
-                        error={errors.cpf}
-                        helperText={errorMessages.cpf}
+                        error={errors.cpfCnpj}
+                        helperText={errorMessages.cpfCnpj}
                     />
                 </Grid2>
 
