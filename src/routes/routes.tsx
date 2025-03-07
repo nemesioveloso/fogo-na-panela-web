@@ -6,6 +6,8 @@ import { Dashboard } from "../pages/Dashboard";
 import { DashboardMesas } from "../pages/Mesa";
 import { Login } from "../pages/Login";
 import { PaginaCozinha } from "../pages/Cozinha";
+import { CriarConta } from "../pages/CriarConta";
+import { RecuperarSenha } from "../pages/RecuperacaoDeSenha";
 
 export function Router() {
     return (
@@ -16,6 +18,8 @@ export function Router() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="dashboardMesas" element={<DashboardMesas />} />
             <Route path="cozinha" element={<PaginaCozinha />} />
+            <Route path="criarConta" element={<CriarConta />} />
+            <Route path="recuperacaoDeSenha" element={<RecuperarSenha />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     )

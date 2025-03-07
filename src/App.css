@@ -10,3 +10,7 @@ body {
     height: 100dvh;
     /* color: #f7f7f7; */
 }
+
+a {
+    text-decoration: none;
+}

@@ -52,7 +52,7 @@ export function Login() {
                 <Typography variant="h4" align="center" gutterBottom>
                     Fogo na Panela
                 </Typography>
-                <Grid2 container spacing={2}>
+                <Grid2 container spacing={2} justifyContent='space-evenly' textAlign='center'>
                     <Grid2 size={12}>
                         <TextField
                             fullWidth
@@ -71,10 +71,24 @@ export function Login() {
                             onChange={(e) => setSenha(e.target.value)}
                         />
                     </Grid2>
-                    <Grid2 size={12} mt={2}>
+                    <Grid2 size={{ xs: 12, sm: 6, md: 5, lg: 5 }}>
+                        <Typography variant="caption">
+                            <a href="/recuperacaoDeSenha">
+                                Esqueci a senha
+                            </a>
+                        </Typography>
+                    </Grid2>
+                    <Grid2 size={{ xs: 12, sm: 8, md: 8, lg: 8 }} mt={1}>
                         <Button type="submit" variant="contained" color="primary" fullWidth>
                             Entrar
                         </Button>
+                    </Grid2>
+                    <Grid2 size={{ xs: 12, sm: 6, md: 5, lg: 5 }}>
+                        <Typography variant="caption">
+                            <a href="/criarConta">
+                                Criar conta
+                            </a>
+                        </Typography>
                     </Grid2>
                 </Grid2>
             </Box>
