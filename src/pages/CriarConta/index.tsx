@@ -8,7 +8,7 @@ import {
     Typography,
 } from "@mui/material";
 import { toast } from "react-toastify";
-import { validateCPFOrCNPJ, validateEmail } from "../../function/function";
+import { isValidEmail, validateCPFOrCNPJ } from "../../function/function";
 
 interface FormCriarConta {
     nome: string;
@@ -81,7 +81,7 @@ export function CriarConta() {
             cep: !values.cep.trim(),
             telefone: !values.telefone.trim(),
             razaoSocial: !values.razaoSocial.trim(),
-            email: !validateEmail(values.email),
+            email: !isValidEmail(values.email),
             senha: !values.senha.trim(),
             estado: !values.estado.trim(),
             cidade: !values.cidade.trim(),

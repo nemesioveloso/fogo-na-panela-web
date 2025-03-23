@@ -1,3 +1,5 @@
+import { DecodedToken } from "../models/token";
+
 export function getFormattedDate(): string {
     const today = new Date();
     const year = today.getFullYear();
@@ -26,14 +28,14 @@ export const validateCPF = (cpf: string): boolean => {
     return regex.test(cpf);
 };
 
-function validateCNPJ(cnpj: string): boolean {
+export function validateCNPJ(cnpj: string): boolean {
     if (/^(\d)\1{13}$/.test(cnpj)) {
         return false;
     }
 
     let tamanho = cnpj.length - 2;
     let numeros = cnpj.substring(0, tamanho);
-    let digitos = cnpj.substring(tamanho);
+    const digitos = cnpj.substring(tamanho);
     let soma = 0;
     let pos = tamanho - 7;
     for (let i = tamanho; i >= 1; i--) {
@@ -57,8 +59,27 @@ function validateCNPJ(cnpj: string): boolean {
     return true;
 }
 
-export const validateEmail = (email: string): boolean => {
-    if (!email.trim()) return false;
-    const regex = /\S+@\S+\.\S+/;
+export const isValidEmail = (email: string) => {
+    const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
     return regex.test(email);
-};
+  };
+
+export const getPermissaoFromToken = (token: string): string | null => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join('')
+      );
+      const decodedToken: DecodedToken = JSON.parse(jsonPayload);
+      return decodedToken.permissao || null;  // Retorna a permissao
+    } catch (e) {
+      console.error("Erro ao decodificar JWT", e);
+      return null;
+    }
+  };

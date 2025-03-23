@@ -8,7 +8,7 @@ import {
     Typography,
 } from "@mui/material";
 import { toast } from "react-toastify";
-import { validateEmail } from "../../function/function";
+import { isValidEmail } from "../../function/function";
 
 export function RecuperarSenha() {
     const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ export function RecuperarSenha() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!validateEmail(email)) {
+        if (!isValidEmail(email)) {
             setErrorEmail(true);
             setErrorMessageEmail("Email inválido ou não preenchido.");
             toast.error("Existe algum erro no campo email.");
