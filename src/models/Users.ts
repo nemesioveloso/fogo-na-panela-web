@@ -3,15 +3,17 @@ export interface User {
     nome: string;
     email: string;
     cpf: string;
-    username: string;
+    telefone: string;
+    senha: string;
     admissao: string;
-    role: "admin" | "colaborador";
+    permissao: "USER" | "ADMIN" | "GERENTE";
 }
 
 export interface CreateUser {
     nome: string;
     email: string;
     cpf: string;
-    username: string;
-    role: "admin" | "colaborador";
+    senha: string;
+    telefone: string;
+    permissao: "USER" | "ADMIN" | "GERENTE";
 }

@@ -13,32 +13,37 @@ import {
 import * as React from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { CreateUser } from "../../models/Users";
+import { User } from "../../models/Users";
 import { containerResponsivePadding } from "../../models/ResponsivePadding";
 import { apiService } from "../../api/request";
 
 interface CadastroDeUsuarioProps {
+  user?: User;
   onSuccess?: () => void;
   onClose?: () => void;
 }
 
-export function CadastroDeUsuario({
+export function EditarUsuario({
+  user,
   onSuccess,
   onClose,
 }: CadastroDeUsuarioProps) {
-  const [values, setValues] = useState<CreateUser>({
+  const [values, setValues] = useState<User>(user ||{
+    id: 0,
     nome: "",
     email: "",
-    senha: "",
     cpf: "",
+    senha: "",
     telefone: "",
+    admissao: "",
     permissao: "USER",
   });
+  
 
   const [errorMessages, setErrorMessages] = useState({
     nome: "",
     email: "",
-    senha: "",
+    // senha: "",
     cpf: "",
     telefone: "",
     // permissao: "",
@@ -47,7 +52,7 @@ export function CadastroDeUsuario({
   const [errors, setErrors] = useState({
     nome: false,
     email: false,
-    senha: false,
+    // senha: false,
     cpf: false,
     telefone: false,
     // permissao: false,
@@ -72,7 +77,7 @@ export function CadastroDeUsuario({
       email: !values.email,
       cpf: !values.cpf,
       telefone: !values.telefone,
-      senha: !values.senha,
+      // senha: !values.senha,
     };
 
     const newErrorMessages = {
@@ -80,7 +85,7 @@ export function CadastroDeUsuario({
       email: !values.email ? "Email é obrigatório" : "",
       cpf: !values.cpf ? "CPF é obrigatório" : "",
       telefone: !values.telefone ? "Username é obrigatório" : "",
-      senha: !values.senha ? "Senha é obrigatório" : "",
+      // senha: !values.senha ? "Senha é obrigatório" : "",
     };
 
     setErrors(newErrors);
@@ -89,14 +94,13 @@ export function CadastroDeUsuario({
     return Object.values(newErrors).every((error) => !error);
   };
 
-  async function adicionarUsuarios(user: CreateUser) {
+  async function adicionarUsuarios(user: User) {
     try {
-      const result = await apiService.post({
-        url: "usuarios",
+      const result = await apiService.put({
+        url: `usuarios/${user.id}`,
         body: user
       });
-      console.log(result, "result");
-      if (result.status === 201) {
+      if (result.status === 200) {
           toast.success(result.data.message);
           onSuccess?.();
       }
@@ -157,14 +161,24 @@ export function CadastroDeUsuario({
         <Grid2 size={12}>
           <TextField
             fullWidth
-            error={errors.senha}
             id="senha"
             name="senha"
             label="Senha"
             type="password"
             value={values.senha}
             onChange={handleChange}
-            helperText={errorMessages.senha}
+          />
+        </Grid2>
+        <Grid2 size={12}>
+          <TextField
+            fullWidth
+            id="admissao"
+            name="admissao"
+            label="Admissão"
+            type="datetime-local"
+            disabled
+            value={values.admissao}
+            onChange={handleChange}
           />
         </Grid2>
         <Grid2 size={12}>

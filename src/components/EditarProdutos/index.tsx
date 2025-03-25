@@ -2,27 +2,32 @@ import { Button, Container, Grid2, TextField, Typography } from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Produtos } from "../../models/Produtos";
+import { ProdutosEdit } from "../../models/Produtos";
 import { containerResponsivePadding } from "../../models/ResponsivePadding";
 import { apiService } from "../../api/request";
 
 interface CadastroDeProdutosProps {
+  produto?: ProdutosEdit;
   onSuccess?: () => void;
   onClose?: () => void;
 }
 
-export function CadastroDeProdutos({
+export function EditarProdutos({
+  produto,
   onSuccess,
   onClose,
 }: CadastroDeProdutosProps) {
-  const [values, setValues] = useState<Produtos>({
-    nome: "",
-    categoria: "",
-    precoCompra: null,
-    precoVenda: null,
-    estoque: null,
-    descricao: "",
-  });
+  const [values, setValues] = useState<ProdutosEdit>(
+    produto || {
+      id: 0,
+      nome: "",
+      categoria: "",
+      precoCompra: null,
+      precoVenda: null,
+      estoque: null,
+      descricao: "",
+    }
+  );
   const [errorMessages, setErrorMessages] = useState({
     nome: "",
     categoria: "",
@@ -79,16 +84,16 @@ export function CadastroDeProdutos({
     return Object.values(newErrors).every((error) => !error);
   };
 
-  async function cadastrarProduto(newProduct: Produtos) {
+  async function editarProduto(produto: ProdutosEdit) {
     try {
-      const result = await apiService.post({
-        url: "produtos",
-        body: newProduct,
+      const result = await apiService.put({
+        url: `produtos/${produto.id}`,
+        body: produto,
       });
-      if (result.status === 201) {
-        toast.success(result.data.message);
-        onSuccess?.();
-      }
+        if (result.status === 200) {
+          toast.success(result.data.message);
+          onSuccess?.();
+        }
     } catch (error) {
       console.log("Erro na requisição GET:", error);
     }
@@ -97,7 +102,7 @@ export function CadastroDeProdutos({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validateFields()) {
-      cadastrarProduto(values);
+      editarProduto(values);
     } else {
       toast.warning("Dados obrigatórios ausentes.");
     }

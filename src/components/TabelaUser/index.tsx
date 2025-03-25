@@ -4,82 +4,58 @@ import {
   Grid2,
   TablePagination,
   Dialog,
-  DialogActions,
-  TextField,
   DialogContent,
-  DialogContentText, Typography,
+  Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductsList } from "./style";
-import { getFormattedDate } from "../../function/function";
 import { User } from "../../models/Users";
 import { CadastroDeUsuario } from "../CadastroDeUsuario";
 import { containerResponsivePadding } from "../../models/ResponsivePadding";
-
-const users: User[] = [
-  {
-    id: 1,
-    nome: "João da Silva",
-    email: "joao.admin@example.com",
-    cpf: "111.111.111-11",
-    username: "joao_admin",
-    role: "admin",
-    admissao: "2025-01-01"
-  },
-  {
-    id: 2,
-    nome: "Maria Souza",
-    email: "maria.souza@example.com",
-    cpf: "222.222.222-22",
-    username: "maria_souza",
-    role: "colaborador",
-    admissao: "2025-01-01"
-  },
-  {
-    id: 3,
-    nome: "Pedro Oliveira",
-    email: "pedro.oliveira@example.com",
-    cpf: "333.333.333-33",
-    username: "pedro_oliveira",
-    role: "colaborador",
-    admissao: "2025-01-01"
-  },
-  {
-    id: 4,
-    nome: "Ana Santos",
-    email: "ana.santos@example.com",
-    cpf: "444.444.444-44",
-    username: "ana_santos",
-    role: "colaborador",
-    admissao: "2025-01-01"
-  },
-  {
-    id: 5,
-    nome: "Carlos Almeida",
-    email: "carlos.almeida@example.com",
-    cpf: "555.555.555-55",
-    username: "carlos_almeida",
-    role: "colaborador",
-    admissao: "2025-01-01"
-  },
-];
-
+import { apiService } from "../../api/request";
+import { EditarUsuario } from "../EditarUsuario";
+import { AlertaDialog } from "../Alerta";
 
 export function TabelaUser() {
-  // const [dados, setDados] = useState([])
+  const [users, setUsers] = useState<User[]>([])
+  console.log(users, 'users');
+  
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
-
-  const [dialogEdit, setDialogEdit] = useState(false);
-  const [dadosEdit, setDadosEdit] = useState<User | null>(null);
-
   const [open, setOpen] = useState(false);
+  const handleCloseDialogCreateUser = () => setOpen(false);
+
+  const [openEditUser, setOpenEditUser] = useState(false);
+  const [userEdit, setProdutoEdit] = useState<User | null>(null);
+  const handleCloseDialogEditUser = () => setOpenEditUser(false);
+
+  const [openAlerta, setOpenAlerta] = useState(false);
+  const [idDelet, setIdDelet] = useState(0);
+
+
+  const handleAbrir = () => {
+    setOpenAlerta(true);
+  };
+
+  const handleFechar = () => {
+    setOpenAlerta(false);
+  };
+
+  const handleConfirmar = () => {
+    setOpenAlerta(false);
+    deletarUsuarios()
+  };
 
   const handleOpenDialog = () => setOpen(true);
-  const handleCloseDialog = () => setOpen(false);
-  const handleProdutoCadastradoComSucesso = () => {
+  const handleUserEditComSucesso = () => {
+    setOpenEditUser(false);
+    listarUsuarios()
+  }
+
+  const handleUserCadastradoComSucesso = () => {
     setOpen(false);
+    listarUsuarios()
   }
 
   const handleChangePage = (
@@ -96,25 +72,45 @@ export function TabelaUser() {
     setPage(0);
   };
 
-  const handleEdit = (item: User) => {
-    setDadosEdit(item);
-    setDialogEdit(true);
-  };
-
-  const handleSave = () => {
-    setDadosEdit((prev) =>
-      prev ? { ...prev, ultimaAlteracao: getFormattedDate() } : null
-    );
-    setDialogEdit(false);
-  };
-
-  const handleClose = () => {
-    setDialogEdit(false);
-  };
+  const handleOpenDialogEditUser= (produto: User) => {
+      setProdutoEdit(produto);
+      setOpenEditUser(true);
+    };
 
   const handleDelete = (id: number) => {
-    console.log(id);
+    setIdDelet(id)
+    handleAbrir()
   };
+
+  async function deletarUsuarios() {
+    try {
+      const result = await apiService.delete({
+        url: `usuarios/${idDelet}`,
+      });
+      setTotalElements(result.data.totalElements);
+      setUsers(result.data.content)
+    } catch (error) {
+      console.log("Erro na requisição GET:", error);
+    } finally {
+      listarUsuarios()
+    }
+  }
+  async function listarUsuarios() {
+    try {
+      const result = await apiService.get({
+        url: `usuarios?page=${page}&size=${pageSize}`,
+      });
+      setTotalElements(result.data.totalElements);
+      setUsers(result.data.content)
+      
+    } catch (error) {
+      console.log("Erro na requisição GET:", error);
+    }
+  }
+
+  useEffect(() => {
+    listarUsuarios()
+  }, [page, pageSize])
 
   return (
     <Box sx={containerResponsivePadding}>
@@ -132,7 +128,7 @@ export function TabelaUser() {
       </Grid2>
       <Grid2 container p={1}>
         <Grid2 size={12}>
-          {users.length > 1 ? (
+          {(users && users.length > 0) ? (
             <Box>
               <ProductsList>
                 <table>
@@ -154,8 +150,8 @@ export function TabelaUser() {
                           <td data-label="NOME">{user.nome}</td>
                           <td data-label="EMAIL">{user.email}</td>
                           <td data-label="CPF">{user.cpf}</td>
-                          <td data-label="USERNAME">{user.username}</td>
-                          <td data-label="PERMISSÃO">{user.role}</td>
+                          <td data-label="USERNAME">{user.telefone}</td>
+                          <td data-label="PERMISSÃO">{user.permissao}</td>
                           <td data-label="ADMISSÃO">{user.admissao}</td>
                           <td data-label="AÇÕES">
                             <Grid2 container spacing={1}
@@ -167,7 +163,7 @@ export function TabelaUser() {
                                   fullWidth
                                   variant="contained"
                                   color="warning"
-                                  onClick={() => handleEdit(user)}
+                                  onClick={() => handleOpenDialogEditUser(user)}
                                 >
                                   Editar
                                 </Button>
@@ -209,123 +205,37 @@ export function TabelaUser() {
           ) : (
             <Box>
               <Typography variant="h4" textAlign='center'>
-                Não existe produtos cadastrados.
+                Não existe usuario cadastrado.
               </Typography>
             </Box>
           )}
         </Grid2>
       </Grid2>
 
-      <Dialog open={dialogEdit} aria-hidden='true' fullWidth onClose={(_event, reason) => {
-            if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
-             handleClose()}}>
-        <DialogContent>
-          <DialogContentText textAlign="center">Produto Editar</DialogContentText>
-          <Grid2 container p={2} spacing={2}>
-            <Grid2 size={12}>
-              <TextField
-                fullWidth
-                id="nome"
-                label="Nome"
-                value={dadosEdit?.nome || ""}
-                onChange={(e) =>
-                  setDadosEdit((prev) =>
-                    prev
-                      ? { ...prev, nome: e.target.value }
-                      : null
-                  )
-                }
-              />
-            </Grid2>
-            <Grid2 size={12}>
-              <TextField
-                fullWidth
-                id="email"
-                label="E-mail"
-                value={dadosEdit?.email || ""}
-                onChange={(e) =>
-                  setDadosEdit((prev) =>
-                    prev
-                      ? { ...prev, categoria: e.target.value }
-                      : null
-                  )
-                }
-              />
-            </Grid2>
-            <Grid2 size={12}>
-              <TextField
-                fullWidth
-                id="cpf"
-                label="CPF"
-                value={dadosEdit?.cpf || ""}
-                onChange={(e) =>
-                  setDadosEdit((prev) =>
-                    prev
-                      ? { ...prev, precoCompra: parseFloat(e.target.value) || 0 }
-                      : null
-                  )
-                }
-              />
-            </Grid2>
-            <Grid2 size={12}>
-              <TextField
-                fullWidth
-                id="username"
-                label="Username"
-                value={dadosEdit?.username || ""}
-                onChange={(e) =>
-                  setDadosEdit((prev) =>
-                    prev
-                      ? { ...prev, precoVenda: parseFloat(e.target.value) || 0 }
-                      : null
-                  )
-                }
-              />
-            </Grid2>
-            <Grid2 size={12}>
-              <TextField
-                fullWidth
-                id="role"
-                label="Tipo de Permissão"
-                value={dadosEdit?.role || ""}
-                onChange={(e) =>
-                  setDadosEdit((prev) =>
-                    prev
-                      ? { ...prev, estoque: parseInt(e.target.value) || 0 }
-                      : null
-                  )
-                }
-              />
-            </Grid2>
-            <Grid2 size={12}>
-              <TextField
-                fullWidth
-                type="date"
-                id="admissao"
-                label="Admissão"
-                value={dadosEdit?.admissao || ""}
-                disabled
-              />
-            </Grid2>
-          </Grid2>
-        </DialogContent>
-
-        <DialogActions>
-          <Button color="error" onClick={handleClose}>
-            Cancelar
-          </Button>
-          <Button color="success" onClick={handleSave}>
-            Salvar
-          </Button>
-        </DialogActions>
-      </Dialog>
       <Dialog open={open} maxWidth="md" fullWidth onClose={(_event, reason) => {
             if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
-            handleCloseDialog()}}>
+            handleCloseDialogCreateUser()}}>
         <DialogContent>
-          <CadastroDeUsuario onClose={handleCloseDialog} onSuccess={handleProdutoCadastradoComSucesso} />
+          <CadastroDeUsuario onClose={handleCloseDialogCreateUser} onSuccess={handleUserCadastradoComSucesso} />
         </DialogContent>
       </Dialog>
+
+      <Dialog open={openEditUser} maxWidth="md" fullWidth onClose={(_event, reason) => {
+            if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
+            handleCloseDialogEditUser()}}>
+        <DialogContent>
+          <EditarUsuario user={userEdit || undefined} onClose={handleCloseDialogEditUser} onSuccess={handleUserEditComSucesso} />
+        </DialogContent>
+      </Dialog>
+
+      <AlertaDialog
+        open={openAlerta}
+        onClose={handleFechar}
+        onConfirm={handleConfirmar}
+        titulo="Atenção!"
+        mensagem="Tem certeza que deseja apagar este usuario?"
+      />
+
     </Box>
   );
 }
