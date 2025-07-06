@@ -1,5 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import { Outlet } from "react-router-dom";
+import { appConfig } from "../config/appConfig";
 
 export default function AuthLayout() {
   return (
@@ -32,10 +33,7 @@ export default function AuthLayout() {
           textAlign: "center",
         }}
       >
-        <Typography variant="body2">
-          © {new Date().getFullYear()} BaseProject. Todos os direitos
-          reservados.
-        </Typography>
+        <Typography variant="body2">{appConfig.copyright}</Typography>
       </Box>
     </Box>
   );
