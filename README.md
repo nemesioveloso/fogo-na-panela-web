@@ -1,54 +1,76 @@
-# React + TypeScript + Vite
+# BaseProject
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+BaseProject is a starter template using **React 19**, **TypeScript** and **Vite**. It provides a minimal yet opinionated setup with popular libraries such as [MUI](https://mui.com/), [styled-components](https://styled-components.com/) and [React Router](https://reactrouter.com/).
 
-Currently, two official plugins are available:
+This repository can be used as a foundation for new front‑end projects and already includes basic configuration for ESLint, Prettier and TypeScript.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## Expanding the ESLint configuration
+1. **Install dependencies**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+   ```bash
+   npm install
+   # or
+   pnpm install
+   ```
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+2. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+   The application will be available at `http://localhost:5173/` by default.
+
+3. **Create a production build**
+
+   ```bash
+   npm run build
+   ```
+
+4. **Preview the build locally**
+
+   ```bash
+   npm run preview
+   ```
+
+## Scripts
+
+| Script       | Description                           |
+| ------------ | ------------------------------------- |
+| `dev`        | Launches Vite in development mode     |
+| `build`      | Type checks the project and builds it |
+| `preview`    | Serves the production build locally   |
+| `lint`       | Runs ESLint using the configured rules|
+| `format`     | Formats the project with Prettier     |
+
+## Folder Structure
+
+```
+src/
+├─ api/        # API utilities
+├─ auth/       # Authentication helpers
+├─ config/     # Application configuration
+├─ layouts/    # Shared layout components
+├─ models/     # TypeScript models
+├─ pages/      # Application pages
+├─ routes/     # React Router configuration
+├─ services/   # Reusable services
+└─ utils/      # Utility helpers
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Feel free to adapt this structure to your needs.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Linting and Formatting
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+ESLint and Prettier are preconfigured to help keep a consistent code style. You may need to install the project’s dev dependencies before the linting command works:
+
+```bash
+npm install
+npm run lint
 ```
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request if you have improvements or fixes.
+
