@@ -1,6 +1,6 @@
 import { Typography, Box } from "@mui/material";
 
-export default function Home() {
+export function Home() {
   return (
     <Box>
       <Typography variant="h4" gutterBottom>
