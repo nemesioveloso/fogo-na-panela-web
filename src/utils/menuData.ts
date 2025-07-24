@@ -18,19 +18,14 @@ export const menuData: Menu[] = [
     accessLevel: ["admin", "manager", "user"],
     submenus: [
       {
-        name: "Formulário com Validação",
-        path: "/dashboard",
+        name: "Compras Anteriores",
+        path: "/comprasAnteriores",
         accessLevel: ["admin", "manager"],
       },
       {
-        name: "Formulário com Validação via Props",
+        name: "Meus Dados",
         path: "/formCadastro",
         accessLevel: ["admin", "manager", "user"],
-      },
-      {
-        name: "404",
-        path: "/about2",
-        accessLevel: ["admin", "manager"],
       },
     ],
   },

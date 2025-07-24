@@ -1,21 +1,32 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, Button } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { appConfig } from "../config/appConfig";
 
 export default function AuthLayout() {
   return (
-    <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {/* Header */}
       <Box
         component="header"
         sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "0px 1rem",
           bgcolor: "primary.main",
           color: "#fff",
           py: 2,
-          textAlign: "center",
         }}
       >
         <Typography variant="h6">BaseProject</Typography>
+        <Button variant="contained" color="primary" href="/dashboard">
+          Dashboard
+        </Button>
       </Box>
 
       {/* Conteúdo */}

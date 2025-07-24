@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
 import Sobre from "../pages/Sobre";
 import NotFound from "../pages/NotFound";
 import { AuthProvider } from "../auth/AuthProvider";
@@ -8,6 +7,8 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
+import { Home } from "../pages/Home";
+import { ComprasAnteriores } from "../pages/ComprasAnteriores";
 
 export default function AppRoutes() {
   return (
@@ -23,14 +24,14 @@ export default function AppRoutes() {
 
           {/* 🔐 Layout Privado */}
           <Route
-            path="/dashboard"
             element={
               <ProtectedRoute requiredRole="admin">
                 <DashboardLayout />
               </ProtectedRoute>
             }
           >
-            <Route index element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/comprasAnteriores" element={<ComprasAnteriores />} />
           </Route>
 
           {/* Página não encontrada */}
