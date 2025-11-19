@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { useAuth } from "../../auth/AuthProvider";
+import { useAuth } from "../../auth/useAuth";
 
 export default function Login() {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");

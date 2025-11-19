@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
 import type { JSX } from "react";
 import type { Role } from "../models/DecodedToken";
+import { useAuth } from "./useAuth";
 
 interface ProtectedRouteProps {
   children: JSX.Element;

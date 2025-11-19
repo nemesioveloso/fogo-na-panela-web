@@ -19,8 +19,8 @@ import { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import * as Icons from "@mui/icons-material";
 import { menuData } from "../utils/menuData";
-import { useAuth } from "../auth/AuthProvider";
 import { appConfig } from "../config/appConfig";
+import { useAuth } from "../auth/useAuth";
 
 export default function DashboardLayout() {
   const drawerWidth = 280;

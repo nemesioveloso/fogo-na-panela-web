@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
 import { toast } from "react-toastify";
@@ -65,4 +59,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export default AuthContext;

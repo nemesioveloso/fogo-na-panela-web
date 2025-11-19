@@ -1,7 +1,7 @@
 import { Box, Typography, Grid } from "@mui/material";
-import { useAuth } from "../../auth/AuthProvider";
 import { CardGererics } from "../../components/CardGenerics";
 import { AcoesRapidas } from "../../components/AcoesRapidas";
+import { useAuth } from "../../auth/useAuth";
 
 export default function Dashboard() {
   const { user } = useAuth();
