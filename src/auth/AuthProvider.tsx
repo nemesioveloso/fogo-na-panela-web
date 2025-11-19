@@ -1,22 +1,18 @@
 import {
   createContext,
   useContext,
-  useState,
   useEffect,
+  useState,
   type ReactNode,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: "admin" | "manager" | "user";
-}
+import { toast } from "react-toastify";
+import { createSession } from "../function";
+import type { SessionUser } from "../models/SessionUser";
 
 interface AuthContextType {
-  user: User | null;
+  user: SessionUser | null;
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -25,57 +21,40 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<SessionUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const devMode = true;
-
-    if (devMode) {
-      const fakeUser: User = {
-        id: 1,
-        name: "Admin Teste",
-        email: "admin@teste.com",
-        role: "admin",
-      };
-
-      setUser(fakeUser);
-      setToken("fake-token");
-
-      localStorage.setItem("token", "fake-token");
-      localStorage.setItem("user", JSON.stringify(fakeUser));
-    } else {
-      const savedToken = localStorage.getItem("token");
-      const savedUser = localStorage.getItem("user");
-
-      if (savedToken && savedUser) {
-        setToken(savedToken);
-        setUser(JSON.parse(savedUser));
-      }
+    const saved = sessionStorage.getItem("user");
+    if (saved) {
+      const parsed: SessionUser = JSON.parse(saved);
+      setUser(parsed);
+      setToken(parsed.accessToken);
     }
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const { data, error } = await authService.login({ email, password });
+  const login = async (usernameOrEmail: string, password: string) => {
+    const res = await authService.login({ usernameOrEmail, password });
 
-    if (error) throw new Error(error.message);
+    if (res.error || !res.data) {
+      return;
+    }
 
-    setToken(data!.token);
-    setUser(data!.user);
+    const sessionUser = createSession(res.data);
 
-    localStorage.setItem("token", data!.token);
-    localStorage.setItem("user", JSON.stringify(data!.user));
+    setUser(sessionUser);
+    setToken(sessionUser.accessToken);
 
+    toast.success(res.data.message);
     navigate("/dashboard");
   };
 
   const logout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     navigate("/login");
   };
 

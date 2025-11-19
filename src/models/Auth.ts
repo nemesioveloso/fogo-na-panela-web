@@ -1,14 +1,10 @@
 export interface AuthRequest {
-  email: string;
+  usernameOrEmail: string;
   password: string;
 }
 
 export interface AuthResponse {
-  token: string;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    role: "admin" | "manager" | "user";
-  };
+  message: string;
+  accessToken: string;
+  refreshToken: string;
 }

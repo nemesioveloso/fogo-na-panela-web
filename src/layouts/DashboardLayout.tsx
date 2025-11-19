@@ -22,15 +22,6 @@ import { menuData } from "../utils/menuData";
 import { useAuth } from "../auth/AuthProvider";
 import { appConfig } from "../config/appConfig";
 
-export type Role = "admin" | "manager" | "user";
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: Role;
-}
-
 export default function DashboardLayout() {
   const drawerWidth = 280;
   const { user, logout } = useAuth();
@@ -38,7 +29,7 @@ export default function DashboardLayout() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMenus, setOpenMenus] = useState<string[]>([]);
-  const userRole = user?.role as Role;
+  const userRole = user?.roles ?? [];
 
   const isActive = (path?: string) => {
     if (!path) return false;
@@ -104,7 +95,9 @@ export default function DashboardLayout() {
         <List>
           {menuData
             .filter(
-              (menu) => !menu.accessLevel || menu.accessLevel.includes(userRole)
+              (menu) =>
+                !menu.accessLevel ||
+                menu.accessLevel.some((role) => userRole.includes(role))
             )
             .map((menu) => (
               <Box key={menu.name}>
@@ -147,8 +140,10 @@ export default function DashboardLayout() {
                         {menu.submenus
                           .filter(
                             (sub) =>
-                              user?.role !== undefined &&
-                              sub.accessLevel.includes(user.role)
+                              user?.roles &&
+                              sub.accessLevel.some((role) =>
+                                user.roles.includes(role)
+                              )
                           )
                           .map((sub) => (
                             <ListItemButton

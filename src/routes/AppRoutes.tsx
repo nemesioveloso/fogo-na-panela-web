@@ -26,7 +26,7 @@ export default function AppRoutes() {
           {/* 🔐 Layout Privado */}
           <Route
             element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute requiredRole={["ADMIN", "EMPLOYEE", "CUSTOMER"]}>
                 <DashboardLayout />
               </ProtectedRoute>
             }

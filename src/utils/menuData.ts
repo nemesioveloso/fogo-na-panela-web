@@ -10,19 +10,19 @@ export const menuData: Menu[] = [
     name: "Tabela",
     icon: "table",
     path: "/tabela",
-    accessLevel: ["admin", "manager", "user"],
+    accessLevel: ["ADMIN", "EMPLOYEE", "CUSTOMER"],
   },
   {
     name: "Compras Anteriores",
     icon: "search",
     path: "/comprasAnteriores",
-    accessLevel: ["admin", "manager", "user"],
+    accessLevel: ["ADMIN", "EMPLOYEE", "CUSTOMER"],
   },
   {
     name: "Meus Dados",
     icon: "search",
     path: "/meusDados",
-    accessLevel: ["admin", "manager", "user"],
+    accessLevel: ["ADMIN", "EMPLOYEE", "CUSTOMER"],
   },
   // {
   //   name: "Dados",

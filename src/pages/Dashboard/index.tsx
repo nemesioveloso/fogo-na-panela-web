@@ -1,10 +1,10 @@
-import { Box, Typography, Button, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import { useAuth } from "../../auth/AuthProvider";
 import { CardGererics } from "../../components/CardGenerics";
 import { AcoesRapidas } from "../../components/AcoesRapidas";
 
 export default function Dashboard() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const statCardsData = [
     {
       id: 1,
@@ -105,7 +105,7 @@ export default function Dashboard() {
         </Grid>
         <Grid size={12}>
           <Typography>
-            Bem-vindo, {user?.name} ({user?.role})
+            Bem-vindo, {user?.username} ({user?.roles})
           </Typography>
         </Grid>
         <Grid size={12}>
@@ -113,11 +113,6 @@ export default function Dashboard() {
         </Grid>
         <Grid size={12}>
           <AcoesRapidas />
-        </Grid>
-        <Grid size={12}>
-          <Button onClick={logout} variant="contained" sx={{ mt: 2 }}>
-            Sair
-          </Button>
         </Grid>
       </Grid>
     </Box>

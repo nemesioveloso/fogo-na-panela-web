@@ -1,14 +1,16 @@
+import type { Role } from "./DecodedToken";
+
 export interface SubMenu {
   name: string;
   path: string;
   icon: string;
-  accessLevel: ("admin" | "manager" | "user")[];
+  accessLevel: Role[];
 }
 
 export interface Menu {
   name: string;
   icon: string;
   path?: string;
-  accessLevel?: ("admin" | "manager" | "user")[];
+  accessLevel?: Role[];
   submenus?: SubMenu[];
 }

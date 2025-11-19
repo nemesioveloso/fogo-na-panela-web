@@ -1,10 +1,11 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import type { JSX } from "react";
+import type { Role } from "../models/DecodedToken";
 
 interface ProtectedRouteProps {
   children: JSX.Element;
-  requiredRole?: "admin" | "manager" | "user";
+  requiredRole?: Role | Role[];
 }
 
 export default function ProtectedRoute({
@@ -14,11 +15,19 @@ export default function ProtectedRoute({
   const { user } = useAuth();
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
+  const rolesToCheck: Role[] = Array.isArray(requiredRole)
+    ? requiredRole
+    : requiredRole
+      ? [requiredRole]
+      : [];
 
-  if (requiredRole && user.role !== requiredRole) {
-    return <Navigate to="/login" />;
+  if (
+    rolesToCheck.length > 0 &&
+    !rolesToCheck.some((role) => user.roles.includes(role))
+  ) {
+    return <Navigate to="/login" replace />;
   }
 
   return children;
