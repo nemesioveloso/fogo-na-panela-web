@@ -2,7 +2,7 @@ import { Box, Container, Typography, Button } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { appConfig } from "../config/appConfig";
 
-export default function AuthLayout() {
+export default function PublicLayout() {
   return (
     <Box
       sx={{
@@ -30,7 +30,7 @@ export default function AuthLayout() {
       </Box>
 
       {/* Conteúdo */}
-      <Container sx={{ flex: 1, py: 4 }}>
+      <Container sx={{ flex: 1, padding: { xs: 0, sm: 1, md: 2, lg: 4 } }}>
         <Outlet />
       </Container>
 

@@ -20,6 +20,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import * as Icons from "@mui/icons-material";
 import { menuData } from "../utils/menuData";
 import { useAuth } from "../auth/AuthProvider";
+import { appConfig } from "../config/appConfig";
 
 export type Role = "admin" | "manager" | "user";
 
@@ -56,20 +57,50 @@ export default function DashboardLayout() {
     );
   };
 
+  const itemStyles = {
+    transition: "background-color 0.25s ease",
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.08)",
+    },
+    "&.Mui-selected": {
+      backgroundColor: "#FFD700",
+      color: "#00114d",
+      "&:hover": {
+        backgroundColor: "#FFD700",
+      },
+      "& .MuiListItemText-primary, & .MuiTypography-root, & .MuiIcon-root, & .material-icons":
+        {
+          color: "#00114d",
+        },
+    },
+  };
+
   const drawer = (
     <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
       {/* Cabeçalho */}
-      <Box>
+      <Box
+        sx={{
+          background: "#00114d",
+          color: "#f7f7f7",
+        }}
+      >
         <Toolbar>
           <Typography variant="h6" noWrap>
-            BaseProject
+            {appConfig.name}
           </Typography>
         </Toolbar>
         <Divider />
       </Box>
 
       {/* Menu que cresce */}
-      <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          overflowY: "auto",
+          background: "#00114d",
+          color: "#f7f7f7",
+        }}
+      >
         <List>
           {menuData
             .filter(
@@ -79,8 +110,12 @@ export default function DashboardLayout() {
               <Box key={menu.name}>
                 {menu.submenus ? (
                   <>
-                    <ListItemButton onClick={() => toggleSubMenu(menu.name)}>
+                    <ListItemButton
+                      onClick={() => toggleSubMenu(menu.name)}
+                      selected={openMenus.includes(menu.name)}
+                    >
                       <Icon
+                        className="material-icons"
                         sx={{
                           color: openMenus.includes(menu.name)
                             ? "primary.main"
@@ -118,7 +153,6 @@ export default function DashboardLayout() {
                           .map((sub) => (
                             <ListItemButton
                               key={sub.name}
-                              sx={{ pl: 4 }}
                               onClick={() => navigate(sub.path)}
                               selected={isActive(sub.path)}
                             >
@@ -139,6 +173,7 @@ export default function DashboardLayout() {
                   <ListItemButton
                     onClick={() => navigate(menu.path!)}
                     selected={isActive(menu.path)}
+                    sx={{ ...itemStyles }}
                   >
                     <Icon
                       sx={{
@@ -161,12 +196,17 @@ export default function DashboardLayout() {
       </Box>
 
       {/* Rodapé - Logout */}
-      <Box>
+      <Box
+        sx={{
+          background: "#00114d",
+          color: "#f7f7f7",
+        }}
+      >
         <Divider />
         <List>
           <ListItemButton onClick={logout}>
             <ListItemIcon>
-              <Icons.Logout />
+              <Icons.Logout sx={{ color: "#f7f7f7" }} />
             </ListItemIcon>
             <ListItemText primary="Sair" />
           </ListItemButton>
@@ -183,6 +223,7 @@ export default function DashboardLayout() {
         sx={{
           width: { md: `calc(100% - ${drawerWidth}px)` },
           ml: { md: `${drawerWidth}px` },
+          background: "#00114d",
         }}
       >
         <Toolbar>
@@ -239,9 +280,9 @@ export default function DashboardLayout() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: { xs: 1, sm: 1, md: 2, lg: 4 },
           width: { md: `calc(100% - ${drawerWidth}px)` },
-          mt: 8,
+          mt: { xs: 7, sm: 8, md: 8, lg: 8 },
         }}
       >
         <Outlet />

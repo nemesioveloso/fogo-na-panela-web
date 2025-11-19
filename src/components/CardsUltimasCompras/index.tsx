@@ -4,21 +4,13 @@ import {
   Box,
   Card,
   Chip,
+  Container,
   Grid,
   Typography,
   useTheme,
 } from "@mui/material";
 import { formatarHorario } from "../../function";
-
-interface Pedido {
-  id: number;
-  cliente: string;
-  itens: string[];
-  valor: number;
-  status: "preparando" | "rota de entrega" | "entregue";
-  horario: string;
-  avatar?: string;
-}
+import type { Pedido } from "../../models/CardsUltimasCompras";
 
 const pedidosExemplo: Pedido[] = [
   {
@@ -85,64 +77,79 @@ export const CardsUltimasCompras = () => {
   const theme = useTheme();
 
   return (
-    <Box>
-      <Grid container spacing={1} alignItems="center">
-        {pedidosExemplo.map((pedido) => (
-          <Grid size={12}>
-            <Card
-              sx={{
-                p: "0.5rem",
-                transition: "box-shadow 0.3s ease-in-out",
-                boxShadow: theme.shadows[2],
-                "&:hover": {
-                  boxShadow: theme.shadows[8],
-                },
-              }}
-              elevation={2}
-            >
-              <Grid container alignItems="center">
-                <Grid
-                  display="flex"
-                  justifyContent="center"
-                  size={{ xs: 12, sm: 2, md: 2, lg: 2 }}
-                >
-                  <Avatar sx={{ height: "6rem", width: "6rem" }} />
-                </Grid>
-                <Grid size={{ xs: 12, sm: 8, md: 8, lg: 8 }}>
-                  <Typography variant="h6">{pedido.cliente}</Typography>
-                  <Box display="flex" alignItems="center" gap={0.5}>
-                    <AccessTime fontSize="small" color="action" />
-                    <Typography variant="body2" color="text.secondary">
-                      {formatarHorario(pedido.horario)}
+    <Container>
+      <Box>
+        <Grid container spacing={1} alignItems="center">
+          {pedidosExemplo.map((pedido) => (
+            <Grid size={12} key={pedido.id}>
+              <Card
+                sx={{
+                  p: "0.5rem",
+                  transition: "box-shadow 0.3s ease-in-out",
+                  boxShadow: theme.shadows[4],
+                  "&:hover": {
+                    boxShadow: theme.shadows[12],
+                  },
+                }}
+                elevation={2}
+              >
+                <Grid container alignItems="center">
+                  <Grid
+                    display="flex"
+                    justifyContent="center"
+                    size={{ xs: 12, sm: 2, md: 2, lg: 2 }}
+                  >
+                    <Avatar sx={{ height: "6rem", width: "6rem" }} />
+                  </Grid>
+                  <Grid
+                    size={{ xs: 12, sm: 8, md: 8, lg: 8 }}
+                    // sx={{
+                    //   display: { xs: "grid", sm: "block" },
+                    //   justifyContent: { xs: "center", sm: "center" },
+                    // }}
+                  >
+                    <Typography variant="h6">{pedido.cliente}</Typography>
+                    <Box display="flex" alignItems="center" gap={0.5}>
+                      <AccessTime fontSize="small" color="action" />
+                      <Typography variant="body2" color="text.secondary">
+                        {formatarHorario(pedido.horario)}
+                      </Typography>
+                    </Box>
+                    <Box display="flex" alignItems="center" gap={1} mb={1}>
+                      <Fastfood fontSize="small" color="action" />
+                      <Typography variant="body2" color="text.secondary">
+                        {pedido.itens.join(", ")}
+                      </Typography>
+                    </Box>
+                    <Chip
+                      sx={{ width: { xs: "100%", sm: "30%" } }}
+                      label={getStatusText(pedido.status)}
+                      color={getStatusColor(pedido.status)}
+                      size="small"
+                      variant="filled"
+                    />
+                  </Grid>
+                  <Grid
+                    size={{ xs: 12, sm: 2, md: 2, lg: 2 }}
+                    sx={{
+                      display: { xs: "grid", sm: "block" },
+                      justifyContent: { xs: "center", sm: "center" },
+                    }}
+                  >
+                    <Typography color="primary.main" variant="h6">
+                      Total:{" "}
+                      {pedido.valor.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
                     </Typography>
-                  </Box>
-                  <Box display="flex" alignItems="center" gap={1} mb={1}>
-                    <Fastfood fontSize="small" color="action" />
-                    <Typography variant="body2" color="text.secondary">
-                      {pedido.itens.join(", ")}
-                    </Typography>
-                  </Box>
-                  <Chip
-                    label={getStatusText(pedido.status)}
-                    color={getStatusColor(pedido.status)}
-                    size="small"
-                    variant="filled"
-                  />
+                  </Grid>
                 </Grid>
-                <Grid size={{ xs: 12, sm: 2, md: 2, lg: 2 }}>
-                  <Typography color="primary.main" variant="h6">
-                    Total:{" "}
-                    {pedido.valor.toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Container>
   );
 };

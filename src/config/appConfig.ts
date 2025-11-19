@@ -1,5 +1,5 @@
 export const appConfig = {
-  name: "BaseProject",
+  name: "PDV",
   description: "Sistema de Gestão Profissional",
   version: "1.0.0",
   copyright: `© ${new Date().getFullYear()} BGinformática Todos os direitos reservados.`,
