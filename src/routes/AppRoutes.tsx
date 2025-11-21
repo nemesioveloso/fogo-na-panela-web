@@ -10,6 +10,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import { Home } from "../pages/Home";
 import { ComprasAnteriores } from "../pages/ComprasAnteriores";
 import { MeusDados } from "../pages/MeusDados";
+import { PublicOnlyRoute } from "../auth/PublicOnlyRoute";
 
 export default function AppRoutes() {
   return (
@@ -20,7 +21,14 @@ export default function AppRoutes() {
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/sobre" element={<Sobre />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={
+                <PublicOnlyRoute>
+                  <Login />
+                </PublicOnlyRoute>
+              }
+            />
           </Route>
 
           {/* 🔐 Layout Privado */}
