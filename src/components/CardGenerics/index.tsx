@@ -33,7 +33,7 @@ export const CardGererics: React.FC<CardGenericsProps> = ({ data }) => {
     <Grid container spacing={2}>
       <Grid container spacing={2}>
         {data.map((item: StatCardData) => (
-          <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
+          <Grid key={item.id} size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
             <Card sx={{ padding: 4, minHeight: "180px" }} elevation={4}>
               <Grid container alignItems="center">
                 <Grid size={12}>
