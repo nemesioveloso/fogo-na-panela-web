@@ -24,6 +24,12 @@ export const menuData: Menu[] = [
     path: "/meusDados",
     accessLevel: ["ADMIN", "EMPLOYEE", "CUSTOMER"],
   },
+  {
+    name: "Sobre Nós",
+    icon: "search",
+    path: "/sobre",
+    accessLevel: ["ADMIN", "EMPLOYEE", "CUSTOMER"],
+  },
   // {
   //   name: "Dados",
   //   icon: "search",

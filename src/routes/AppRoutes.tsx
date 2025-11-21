@@ -11,6 +11,7 @@ import { Home } from "../pages/Home";
 import { ComprasAnteriores } from "../pages/ComprasAnteriores";
 import { MeusDados } from "../pages/MeusDados";
 import { PublicOnlyRoute } from "../auth/PublicOnlyRoute";
+import { CriarConta } from "../pages/CriarConta";
 
 export default function AppRoutes() {
   return (
@@ -21,6 +22,7 @@ export default function AppRoutes() {
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/sobre" element={<Sobre />} />
+            <Route path="/criarConta" element={<CriarConta />} />
             <Route
               path="/login"
               element={
